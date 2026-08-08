@@ -2,7 +2,7 @@
 
 > This skill is experimental and a WIP. I appreciate any feedback.
 
-![Version](https://img.shields.io/badge/version-0.1.1-blue)
+![Version](https://img.shields.io/badge/version-0.1.2-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 Help keep your `/docs/` accurate during development.
