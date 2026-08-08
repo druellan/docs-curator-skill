@@ -4,7 +4,7 @@ description: Keep /docs/ accurate during development. Use after code changes aff
 license: MIT
 metadata:
   author: https://github.com/darioruellan
-  version: "0.1.1"
+  version: "0.1.2"
   domain: frontend/backend
   triggers: docs, document, documentation, update docs, synchronize docs, plan, implement
   role: specialist
@@ -22,6 +22,20 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 
 - Creating new docs that are not derived from existing code (use a writing skill).
 - Fixing typos or prose polish in docs unrelated to a code change.
+
+## Documentation Folders
+
+| Folder | Purpose | Scope |
+|---|---|---|
+| `/docs/00-core/` | Foundational concepts, constraints, architecture, and shared conventions | Included |
+| `/docs/10-integrations/` | External integrations, services, and connectors | Included |
+| `/docs/20-features/` | Feature-specific behavior, usage, and capabilities | Included |
+| `/docs/25-patterns/` | Reusable guidance and playbooks that apply across multiple features | Included |
+| `/docs/30-operations/` | Operational procedures, runbooks, deployment details, and maintenance guidance | Included |
+| `/docs/40-plans/` | Implementation plans; **deleted on ship** (see `references/okf-conventions.md`) | Included |
+| `/docs/99-lessons/` | Retrospective lessons and postmortems; only when explicitly triggered | Excluded by default |
+| `/docs/index.md` | Main navigation hub for the docs set | Included |
+| `/docs/log.md` | Reserved log file for document history or change tracking when needed | — |
 
 ## Scope
 
