@@ -16,6 +16,7 @@ Maps changed files to the doc sections that need attention. Use it as a starting
 | `mkdocs.yml`, `docs/index.md`, or nav reorg | All `/docs/` pages touched by the move | Link integrity |
 | Plan shipped | **Delete** the plan file under `/docs/40-plans/`, update `/docs/40-plans/index.md` and `/docs/index.md`, fix any cross-references | Plans are delete-on-ship; see `references/okf-conventions.md` |
 | Plan abandoned | Move to `/docs/99-lessons/` with `type: Lesson` and a brief retrospective | Preserve the learning |
+| Verified dead-end (documented procedure failed with evidence) | Create `/docs/99-lessons/<slug>.md` with `type: Lesson`; cross-link from the runbook or integration doc that triggered it | Vendor-documented path failed, finding is temporal (could change in vendor release), diagnosed with timestamped evidence — see `references/okf-conventions.md` |
 
 ## Classification Heuristics
 

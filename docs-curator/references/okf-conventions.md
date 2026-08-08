@@ -28,7 +28,7 @@ The project uses a controlled type vocabulary so consumers can filter, route, an
 | `Deployment` | `30-operations/` | Deployment procedure, release flow, or infrastructure |
 | `Command` | `30-operations/` | CLI command, scheduled task, or console entry point |
 | `Implementation Plan` | `40-plans/` | WIP implementation plan (see lifecycle below) |
-| `Lesson` | `99-lessons/` | Post-mortem, retrospective, or lesson learned |
+| `Lesson` | `99-lessons/` | Post-mortem, retrospective, or verified-dead-end finding (see trigger matrix) |
 
 ## Frontmatter
 
@@ -76,13 +76,13 @@ Plans in `/docs/40-plans/` follow an aggressive delete-on-ship lifecycle. The re
    - Remove the entry from `/docs/40-plans/index.md` (if present).
    - Remove any link from `/docs/index.md`.
    - Update any cross-references in feature or integration docs to point at the shipped feature doc instead.
-   - Add a one-line `## Provenance` note in the shipped feature doc if the rationale deserves a permanent home, or move longer rationale to `/docs/99-lessons/`.
+   - Add a one-line `## Provenance` note in the shipped feature doc if the rationale deserves a permanent home.
 
 A plan that is abandoned before shipping should be moved to `/docs/99-lessons/` with `type: Lesson` and a brief retrospective.
 
 ## Cross-Links
 
-- Use root-absolute paths: `/docs/10-integrations/stripe.md`.
+- Use root-absolute paths, ex: `/docs/10-integrations/stripe.md`.
 - Do not use relative paths; root-absolute paths are stable when documents move.
 - Links express directed relationships; the surrounding prose conveys the relationship type.
 - Consumers MUST tolerate broken links.
