@@ -1,10 +1,10 @@
 ---
 name: docs-curator
-description: Keep /docs/ accurate during development. Use after code changes affect endpoints, migrations, integrations, jobs, listeners, commands, schedules, deployment, environment setup, architecture, patterns, or implementation plans. Use when the user asks to "update docs", "sync documentation", or "check docs integrity". Use when planning a new feature under `/docs/40-plans/` that will later be implemented.
+description: Keep /docs/ accurate during development. Use after code changes affect endpoints, migrations, integrations, jobs, listeners, commands, schedules, deployment, environment setup, architecture, patterns, or implementation plans. Use when the user asks to "update docs", "sync documentation", or "check docs integrity". Use when planning a new feature.
 license: MIT
 metadata:
   author: https://github.com/darioruellan
-  version: "0.1.3"
+  version: "0.1.4"
   domain: frontend/backend
   triggers: docs, document, documentation, update docs, synchronize docs, plan, implement
   role: specialist
@@ -33,7 +33,7 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 | `/docs/25-patterns/` | Reusable guidance and playbooks that apply across multiple features | Included |
 | `/docs/30-operations/` | Operational procedures, runbooks, deployment details, and maintenance guidance | Included |
 | `/docs/40-plans/` | Implementation plans; **deleted on ship** (see `references/okf-conventions.md`) | Included |
-| `/docs/99-lessons/` | Retrospective lessons and postmortems; only when explicitly triggered | Excluded by default |
+| `/docs/99-lessons/` | Retrospective lessons and postmortems; only when the user explicitly mentions lessons, postmortem, or retrospective in their request | Excluded by default |
 | `/docs/index.md` | Main navigation hub for the docs set | Included |
 | `/docs/log.md` | Reserved log file for document history or change tracking when needed | — |
 
@@ -43,7 +43,7 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 
 - Updating files under `/docs/00-core/`, `/docs/10-integrations/`, `/docs/20-features/`, `/docs/25-patterns/`, and `/docs/30-operations/`.
 - Maintaining `/docs/index.md` navigation.
-- Keeping implementation plans under `/docs/40-plans/` aligned with shipped behavior. Plans are **delete-on-ship**: when a feature ships, the plan file is removed (see `references/okf-conventions.md`).
+- Keeping `/docs/40-plans/` plans aligned with the code as it evolves during implementation. Plans are **delete-on-ship**: when a feature ships, the plan file is removed and any relevant behavior is documented under the appropriate feature or integration page (see `references/okf-conventions.md`).
 - Enforcing OKF v0.1 conformance across `/docs/` (parseable frontmatter, `type:` in every concept, controlled type vocabulary).
 - Syncing `.env.example` with new environment variables.
 - Source code comments and docstrings (preferred over hand-editing generated reference pages).
@@ -90,6 +90,7 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
 
 3. **Classify the diff into trigger categories** (optional but recommended on large changes).
    - Run `python scripts/classify-diff.py` (or the project's equivalent) to map changed files into the categories in `references/trigger-matrix.md`.
+   - If referenced scripts or reference files do not exist in the project, skip that step and note the missing dependency in the Final Report under Verification.
    - This shrinks the doc tree to the sections that actually need attention.
    - For changes to `/docs/` itself, also run `python scripts/check-okf.py` to catch frontmatter or `type:` regressions in the same pass.
 
@@ -121,7 +122,11 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
    - Keep edits scoped to the existing tone, format, and information architecture.
    - Update `/docs/index.md` when adding or renaming pages.
    - Every new or edited concept file MUST have a `type:` in its frontmatter from the controlled vocabulary in `references/okf-conventions.md`.
-   - When a plan in `/docs/40-plans/` ships: **delete the plan file**, remove it from `/docs/40-plans/index.md` (if present) and `/docs/index.md`, then grep for its path across `/docs/` and update any cross-references in feature or integration docs to point at the shipped feature doc instead.
+   - When a plan in `/docs/40-plans/` ships, follow this ordered procedure:
+     1. **Delete the plan file** from `/docs/40-plans/`.
+     2. **Remove the plan entry** from `/docs/40-plans/index.md` (if present).
+     3. **Remove the plan entry** from `/docs/index.md`.
+     4. **Grep for stale cross-references**: search for the deleted plan's path across `/docs/` and update any cross-references in feature or integration docs to point at the shipped feature doc instead.
    - Run the project's docs build (e.g. `make build-docs`) after edits to verify the docs site still builds.
    - If env vars changed, update `.env.example` in the same pass.
    - After every change has landed, emit the **Final Report** (see next section) summarizing what was changed and what evidence supports it. 
