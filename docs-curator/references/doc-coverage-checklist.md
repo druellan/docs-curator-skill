@@ -8,6 +8,7 @@ Use this checklist during the doc-first and code-first passes. It is intentional
 - Configuration options: `*Settings` types, default config objects, and builder patterns.
 - Environment variables or runtime flags.
 - CLI commands, scripts, and example entry points that define supported usage.
+- Test suites, test runner commands, coverage entry points, and CI test jobs.
 - User-facing behaviors: retry, timeouts, streaming, errors, logging, telemetry, and data handling.
 - Deprecations, removals, or renamed settings.
 

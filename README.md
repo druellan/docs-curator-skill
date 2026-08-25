@@ -2,7 +2,7 @@
 
 > This skill is experimental and a WIP. I appreciate any feedback.
 
-![Version](https://img.shields.io/badge/version-0.1.4-blue)
+![Version](https://img.shields.io/badge/version-0.2.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 Help keep your `/docs/` accurate during development.
@@ -27,7 +27,7 @@ This skill enforces **OKF v0.1** (Open Knowledge Format) conformance across your
 
 Without structure, docs become a flat pile of Markdown. OKF gives every page a **type** (is this an API reference, a runbook, a feature doc, or a plan?), a **directory home**, and predictable frontmatter so tools (and agents) can navigate, filter, and validate the knowledge bundle without guessing.
 
-See [`references/okf-conventions.md`](docs-curator/references/okf-conventions.md) for the full type vocabulary and project-specific rules, and [`references/trigger-matrix.md`](docs-curator/references/trigger-matrix.md) for the file-to-doc routing table.
+See [`references/okf-conventions.md`](docs-curator/references/okf-conventions.md) for the full type vocabulary and project-specific rules, and [`references/trigger-matrix.md`](docs-curator/references/trigger-matrix.md) for the file-to-doc routing table. Test procedures ("which tests exist and how to run them") live as `type: Test Procedure` pages under `/docs/30-operations/`.
 
 ## Documentation Folders It Maintains
 
@@ -64,7 +64,7 @@ skills/
 
 | Script | What it does |
 |---|---|
-| `classify-diff.py [BASE_REF]` | Classifies a `git diff` into trigger-matrix categories, including rename-safe parsing |
+| `classify-diff.py [BASE_REF]` | Classifies a `git diff` into trigger-matrix categories (endpoints, models, tests, deployments, docs, ...), including rename-safe parsing |
 | `check-okf.py [DOCS_DIR]` | Validates strict YAML frontmatter and required `type:` fields |
 | `check-links.py [DOCS_DIR]` | Checks markdown links, missing local targets, and enforces root-absolute link style |
 

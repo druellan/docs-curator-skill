@@ -4,7 +4,7 @@ description: Keep /docs/ accurate during development. Use after code changes aff
 license: MIT
 metadata:
   author: https://github.com/darioruellan
-  version: "0.1.4"
+  version: "0.2.1"
   domain: frontend/backend
   triggers: docs, document, documentation, update docs, synchronize docs, plan, implement
   role: specialist
@@ -46,6 +46,7 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 - Keeping `/docs/40-plans/` plans aligned with the code as it evolves during implementation. Plans are **delete-on-ship**: when a feature ships, the plan file is removed and any relevant behavior is documented under the appropriate feature or integration page (see `references/okf-conventions.md`).
 - Enforcing OKF v0.1 conformance across `/docs/` (parseable frontmatter, `type:` in every concept, controlled type vocabulary).
 - Syncing `.env.example` with new environment variables.
+- Keeping `/docs/30-operations/` test procedure pages (e.g. `testing.md`, `type: Test Procedure`) aligned with the test surface: framework, run commands, available-test inventory.
 - Source code comments and docstrings (preferred over hand-editing generated reference pages).
 
 **Excluded:**
@@ -85,8 +86,9 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
    - In `full` mode: walk the codebase for public exports, configuration types, env vars, CLI commands, default values, and documented behaviors.
    - In `diff` mode: constrain to the diff using `git diff main...HEAD` (or equivalent).
    - In `concept` mode: read the named source plus its tests and references.
-   - Use targeted searches: `rg "Settings"`, `rg "Config"`, `rg "os.environ"`, `rg "<PROJECT_PREFIX>_"` (or project-specific pattern for env vars).
-   - Capture evidence for each item: `file path` + `symbol/setting` + behavior notes.
+   - Use targeted searches: `grep "Settings"`, `grep "Config"`, `grep "os.environ"`, `grep "<PROJECT_PREFIX>_"` (or project-specific pattern for env vars).
+      - In `full` mode, also walk the test surface: test runner command, suites, listing commands (`--list-tests`, `--collect-only`, `--listTests`), and CI test jobs.
+      - Capture evidence for each item: `file path` + `symbol/setting` + behavior notes.
 
 3. **Classify the diff into trigger categories** (optional but recommended on large changes).
    - Run `python scripts/classify-diff.py` (or the project's equivalent) to map changed files into the categories in `references/trigger-matrix.md`.
@@ -103,6 +105,7 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
    - Put **cross-cutting reusable guidance** in `/docs/25-patterns/` (for example: composition rules, interaction behaviors, validation/check flows, accessibility patterns, naming conventions, or integration playbooks that apply in multiple places).
    - Keep `/docs/20-features/` for **feature-specific behavior** tied to concrete components, modules, pages, commands, or services.
    - Keep `/docs/00-core/` for **foundational primitives and constraints** (tokens, global architecture, base conventions, shared constraints).
+      - Put **test procedures** (how to run the suite, how to list available tests, suite inventory) in `/docs/30-operations/` with `type: Test Procedure` (see `references/okf-conventions.md`).
 
 5. **Code-first pass: map features to docs.**
    - Review the docs information architecture in `/docs/index.md`.
@@ -198,6 +201,7 @@ Stop and reconsider when any of these appear.
 - The same concept is duplicated across multiple pages with no cross-link.
 - A new feature area has no obvious home in the navigation.
 - Reusable guidance is buried in feature or operations pages instead of `/docs/25-patterns/`.
+- A `Test Procedure` page's run commands, suite inventory, or available-tests list diverge from the test config in the diff.
 - The proposed edit hand-edits a generated reference page instead of the source.
 - The inventory lists features the diff adds but the docs already cover, while missing features the diff actually changed.
 - `.env.example` is out of sync with the new env vars in the diff.
@@ -218,7 +222,7 @@ Before declaring the sync complete, confirm:
 - [ ] `scripts/check-okf.py` reports zero OKF conformance violations.
 - [ ] Docs build command passes (e.g. `make build-docs`).
 - [ ] `scripts/check-links.py` reports no broken internal links.
-- [ ] Shipped plans in `/docs/40-plans/` were deleted, removed from index files (if present), and no stale cross-references remain (verified with `rg "path/to/deleted/plan"`).
+- [ ] Shipped plans in `/docs/40-plans/` were deleted, removed from index files (if present), and no stale cross-references remain (verified with `grep "path/to/deleted/plan"`).
 
 ## Safety / DONTs
 
@@ -232,6 +236,7 @@ Before declaring the sync complete, confirm:
 
 ## Gotchas
 
+- Commands shown in this skill (`grep`, `python scripts/...`, `git`, `make`) are examples. Use the environment's equivalent tool when a binary is unavailable; the steps matter, not the exact invocation.
 - Relative links in docs break when pages are moved; always use root-absolute paths (`/docs/...`).
 - The trigger matrix in `references/trigger-matrix.md` is a guide, not exhaustive; use judgment when a change spans multiple domains.
 

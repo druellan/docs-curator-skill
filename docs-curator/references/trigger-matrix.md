@@ -17,6 +17,9 @@ Maps changed files to the doc sections that need attention. Use it as a starting
 | Plan shipped | **Delete** the plan file under `/docs/40-plans/`, update `/docs/40-plans/index.md` and `/docs/index.md`, fix any cross-references | Plans are delete-on-ship; see `references/okf-conventions.md` |
 | Plan abandoned | Move to `/docs/99-lessons/` with `type: Lesson` and a brief retrospective | Preserve the learning |
 | Verified dead-end (documented procedure failed with evidence) | Create `/docs/99-lessons/<slug>.md` with `type: Lesson`; cross-link from the runbook or integration doc that triggered it | Vendor-documented path failed, finding is temporal (could change in vendor release), diagnosed with timestamped evidence — see `references/okf-conventions.md` |
+| Test framework, runner, or config change (new suite, `phpunit.xml`, `jest.config.*`, etc.) | `/docs/30-operations/testing.md` test procedure page | Verification surface changed |
+| Test command, filter, or CI test job changed | `/docs/30-operations/testing.md` + `/docs/00-core/` setup if documented there | Run instructions would mislead |
+| Individual test file added or changed | `/docs/30-operations/testing.md` available-tests inventory entry (one line) or the documented discovery command; judge whether the procedure changed | Keep the test inventory accurate without churn |
 
 ## Classification Heuristics
 
@@ -29,5 +32,8 @@ When classifying, prefer signal from these patterns:
 - `**/console/**`, `**/commands/**`, `**/Kernel.php`, `**/scheduler/**` -> Command or schedule
 - `**/deploy/**`, `**/Dockerfile*`, `**/k8s/**`, `**/terraform/**`, `.github/workflows/**` -> Deployment
 - `.env*`, `**/config/**` -> Setup or env
+- `**/tests/**`, `**/test/**`, `**/__tests__/**`, `**/*.test.*`, `**/*.spec.*` -> Test
+- `phpunit.xml*`, `pytest.ini`, `jest.config.*`, `vitest.*`, `playwright.config.*`, `cypress.config.*` -> Test
+- `**/features/**` (BDD/Behat) -> Test by default; verify whether feature docs also need an update
 
 When in doubt, classify as the most user-visible category and let the report do the rest.

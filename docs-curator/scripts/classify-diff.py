@@ -18,6 +18,7 @@ ORDER = [
     "command-or-schedule",
     "deployment",
     "setup",
+    "test",
     "plan",
     "nav",
     "generated-ref",
@@ -50,6 +51,17 @@ def is_git_repo() -> bool:
 def classify(path: str) -> str:
     p = PurePosixPath(path)
     parts = p.parts
+
+    if any(seg in parts for seg in ("tests", "test", "__tests__")):
+        return "test"
+    if p.stem.endswith(".test") or p.stem.endswith(".spec"):
+        return "test"
+    if p.name.startswith("jest.config") or p.name.startswith("vitest"):
+        return "test"
+    if p.name.startswith("playwright.config") or p.name.startswith("cypress.config"):
+        return "test"
+    if p.name.startswith("phpunit") or p.name in ("pytest.ini", "tox.ini", ".coveragerc"):
+        return "test"
 
     if any(seg in parts for seg in ("routes", "controllers", "api", "endpoints")):
         return "endpoint"

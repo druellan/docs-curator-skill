@@ -25,6 +25,7 @@ The project uses a controlled type vocabulary so consumers can filter, route, an
 | `Integration` | `10-integrations/` | Third-party service, vendor, or external system |
 | `Feature` | `20-features/` | Product feature, user-facing capability, or workflow |
 | `Runbook` | `30-operations/` | Incident response or on-call procedure |
+| `Test Procedure` | `30-operations/` | Commands and procedures for running the project's test suite, including how to list available tests |
 | `Deployment` | `30-operations/` | Deployment procedure, release flow, or infrastructure |
 | `Command` | `30-operations/` | CLI command, scheduled task, or console entry point |
 | `Implementation Plan` | `40-plans/` | WIP implementation plan (see lifecycle below) |
@@ -62,6 +63,7 @@ Producers MAY add any other keys. Consumers MUST NOT reject unknown keys.
 | `API Reference` | `draft`, `stable`, `deprecated` | `stable` |
 | `Integration` | `draft`, `stable`, `deprecated` | `stable` |
 | `Runbook` | `draft`, `stable`, `deprecated` | `stable` |
+| `Test Procedure` | `draft`, `stable`, `deprecated` | `stable` |
 | `Lesson` | (none) | — |
 
 Other types MAY omit `status`.
