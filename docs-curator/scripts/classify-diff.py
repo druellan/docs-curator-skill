@@ -11,18 +11,18 @@ from collections import OrderedDict
 from pathlib import PurePosixPath
 
 ORDER = [
-        "endpoint",
-        "model",
-        "integration",
-        "event-or-job",
-        "command-or-schedule",
-        "deployment",
-        "setup",
-        "plan",
-        "nav",
-        "generated-ref",
-        "docs",
-        "other",
+    "endpoint",
+    "model",
+    "integration",
+    "event-or-job",
+    "command-or-schedule",
+    "deployment",
+    "setup",
+    "plan",
+    "nav",
+    "generated-ref",
+    "docs",
+    "other",
 ]
 
 
@@ -36,6 +36,15 @@ def git_rev_parse(ref: str) -> bool:
         capture_output=True,
     )
     return result.returncode == 0
+
+
+def is_git_repo() -> bool:
+    result = subprocess.run(
+        ["git", "rev-parse", "--is-inside-work-tree"],
+        capture_output=True,
+        text=True,
+    )
+    return result.returncode == 0 and result.stdout.strip() == "true"
 
 
 def classify(path: str) -> str:
@@ -136,7 +145,7 @@ def parse_name_status_z(raw: bytes) -> list[dict[str, str | None]]:
 def main() -> int:
     base = parse_base_ref()
 
-    if not git_rev_parse("--git-dir"):
+    if not is_git_repo():
         print("not a git repository", file=sys.stderr)
         return 2
     if not git_rev_parse(base):
@@ -154,9 +163,7 @@ def main() -> int:
         print(f"no changes between {base} and HEAD")
         return 1
 
-
     buckets: dict[str, list[str]] = OrderedDict((cat, []) for cat in ORDER)
-    classified_records: list[dict[str, str | None]] = []
 
     for record in records:
         path = record["path"]
@@ -164,9 +171,6 @@ def main() -> int:
             continue
         bucket = classify(path)
         buckets[bucket].append(path)
-        classified = dict(record)
-        classified["category"] = bucket
-        classified_records.append(classified)
 
     buckets = OrderedDict((k, v) for k, v in buckets.items() if v)
 
