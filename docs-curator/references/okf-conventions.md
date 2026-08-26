@@ -58,15 +58,17 @@ Producers MAY add any other keys. Consumers MUST NOT reject unknown keys.
 
 | Type | Allowed `status` values | Default |
 |---|---|---|
-| `Implementation Plan` | `proposed`, `accepted` | `proposed` |
-| `Feature` | `draft`, `stable`, `deprecated` | `stable` |
+| `Architecture` | (none) | — |
 | `API Reference` | `draft`, `stable`, `deprecated` | `stable` |
+| `Schema` | `draft`, `stable`, `deprecated` | `stable` |
 | `Integration` | `draft`, `stable`, `deprecated` | `stable` |
+| `Feature` | `draft`, `stable`, `deprecated` | `stable` |
 | `Runbook` | `draft`, `stable`, `deprecated` | `stable` |
 | `Test Procedure` | `draft`, `stable`, `deprecated` | `stable` |
+| `Deployment` | `draft`, `stable`, `deprecated` | `stable` |
+| `Command` | `draft`, `stable`, `deprecated` | `stable` |
+| `Implementation Plan` | `proposed`, `accepted`, `delayed` | `proposed` |
 | `Lesson` | (none) | — |
-
-Other types MAY omit `status`.
 
 ## Implementation Plan Lifecycle
 
