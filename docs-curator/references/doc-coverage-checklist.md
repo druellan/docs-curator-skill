@@ -26,7 +26,7 @@ Use this checklist during the doc-first and code-first passes. It is intentional
 - Use conceptual pages for cross-cutting concerns (auth, errors, streaming, tracing, tools).
 - Keep quick-start flows minimal; move advanced details into deeper pages.
 
-## Evidence Capture
+## Source Capture
 
 - Record the file path and symbol or setting name for every claim.
 - Note defaults and behavior-critical details for accuracy checks.

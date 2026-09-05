@@ -6,13 +6,18 @@ Usage: check-okf.py [DOCS_DIR]
 
 Conformance rules (per OKF v0.1 §9):
     1. Every non-reserved .md file contains parseable YAML frontmatter fenced by '---'.
-  2. Every frontmatter block contains a non-empty `type:` field.
+    2. Every frontmatter block contains a non-empty `type:` field.
 
 Exits 0 if conformant, 1 if any violation, 2 on usage error.
 """
 import re
 import sys
 from pathlib import Path
+
+try:
+    import yaml
+except ModuleNotFoundError:
+    yaml = None
 
 RESERVED = {"index.md", "log.md"}
 
@@ -28,11 +33,6 @@ def extract_frontmatter(content: str) -> str | None:
 
 def parse_type_strict(frontmatter_text: str) -> tuple[str | None, str | None]:
     try:
-        import yaml
-    except ModuleNotFoundError:
-        return None, "PyYAML is required for strict YAML validation but is not installed"
-
-    try:
         data = yaml.safe_load(frontmatter_text)
     except Exception as exc:  # pragma: no cover - depends on third-party parser behavior
         return None, f"invalid YAML frontmatter: {exc}"
@@ -47,6 +47,10 @@ def parse_type_strict(frontmatter_text: str) -> tuple[str | None, str | None]:
 
 
 def main() -> int:
+    if yaml is None:
+        print("PyYAML is required for strict YAML validation but is not installed", file=sys.stderr)
+        return 2
+
     docs_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("docs")
 
     if not docs_dir.is_dir():

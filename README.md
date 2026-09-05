@@ -27,7 +27,7 @@ This skill enforces **OKF v0.1** (Open Knowledge Format) conformance across your
 
 Without structure, docs become a flat pile of Markdown. OKF gives every page a **type** (is this an API reference, a runbook, a feature doc, or a plan?), a **directory home**, and predictable frontmatter so tools (and agents) can navigate, filter, and validate the knowledge bundle without guessing.
 
-See [`references/okf-conventions.md`](docs-curator/references/okf-conventions.md) for the full type vocabulary and project-specific rules, and [`references/trigger-matrix.md`](docs-curator/references/trigger-matrix.md) for the file-to-doc routing table. Test procedures ("which tests exist and how to run them") live as `type: Test Procedure` pages under `/docs/30-operations/`.
+See [`references/okf-conventions.md`](docs-curator/references/okf-conventions.md) for the full type vocabulary and project-specific rules, [`references/trigger-matrix.md`](docs-curator/references/trigger-matrix.md) for the file-to-doc routing table, and [`references/templates.md`](docs-curator/references/templates.md) for per-type section templates. Test procedures ("which tests exist and how to run them") live as `type: Test Procedure` pages under `/docs/30-operations/`.
 
 ## Documentation Folders It Maintains
 
@@ -57,7 +57,8 @@ skills/
 └── references/
     ├── trigger-matrix.md             # Which file changes need which docs
     ├── okf-conventions.md            # Frontmatter rules and type vocabulary
-    └── doc-coverage-checklist.md     # Page-by-page audit checklist
+    ├── doc-coverage-checklist.md     # Page-by-page audit checklist
+    └── templates.md                  # Per-type section templates and parsing template
 ```
 
 ## Scripts

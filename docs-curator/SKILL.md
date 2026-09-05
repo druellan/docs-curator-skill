@@ -16,7 +16,7 @@ metadata:
 
 This skill helps keep `/docs/` aligned with shipped behavior by comparing the change scope to the existing documentation, inventorying the relevant code surface, and proposing updates for review before anything is changed.
 
-The skill is **scope-aware** (full audit vs current-branch diff vs single concept) and **evidence-driven** (every claim cites a file path and symbol).
+The skill is **scope-aware** (full audit vs current-branch diff vs single concept) and **source-anchored** (every claim cites a file path and symbol).
 
 **When NOT to use:**
 
@@ -61,7 +61,6 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 - Changed source files (controllers, models, services, jobs, listeners, commands, config, migrations, routes, plan files).
 - Git diff of the current change.
 - Existing doc tree under `/docs/` and the navigation file `/docs/index.md`.
-- Project's docs build command (e.g. `make build-docs`).
 
 ## Operating Modes
 
@@ -88,7 +87,7 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
    - In `concept` mode: read the named source plus its tests and references.
    - Use targeted searches: `grep "Settings"`, `grep "Config"`, `grep "os.environ"`, `grep "<PROJECT_PREFIX>_"` (or project-specific pattern for env vars).
       - In `full` mode, also walk the test surface: test runner command, suites, listing commands (`--list-tests`, `--collect-only`, `--listTests`), and CI test jobs.
-      - Capture evidence for each item: `file path` + `symbol/setting` + behavior notes.
+      - Record the source for each item: `file path` + `symbol/setting` + behavior notes.
 
 3. **Classify the diff into trigger categories** (optional but recommended on large changes).
    - Run `python scripts/classify-diff.py` (or the project's equivalent) to map changed files into the categories in `references/trigger-matrix.md`.
@@ -98,6 +97,7 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
 
 4. **Doc-first pass: review existing pages.**
    - Walk each relevant page under `/docs/`.
+   - Use `references/templates.md` as the parsing template: check each page against its `type:`'s expected sections (Overview, core sections, Options/params, Examples, Source, Cross-links, Status).
    - Identify missing mentions of important supported options: opt-in flags, env vars, customization points, new features from `src/` and `examples/`.
    - Propose additions where users would reasonably expect to find them on that page.
 
@@ -123,6 +123,7 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
 
 7. **Apply the proposed changes**
    - Keep edits scoped to the existing tone, format, and information architecture.
+   - For new concept pages, use the per-type section template in `references/templates.md` matching the page's `type:`. Sections are conventional, not required; omit sections the concept does not warrant.
    - Update `/docs/index.md` when adding or renaming pages.
    - Every new or edited concept file MUST have a `type:` in its frontmatter from the controlled vocabulary in `references/okf-conventions.md`.
    - When a plan in `/docs/40-plans/` ships, follow this ordered procedure:
@@ -132,7 +133,7 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
      4. **Grep for stale cross-references**: search for the deleted plan's path across `/docs/` and update any cross-references in feature or integration docs to point at the shipped feature doc instead.
    - Run the project's docs build (e.g. `make build-docs`) after edits to verify the docs site still builds.
    - If env vars changed, update `.env.example` in the same pass.
-   - After every change has landed, emit the **Final Report** (see next section) summarizing what was changed and what evidence supports it. 
+   - After every change has landed, emit the **Final Report** (see next section) summarizing what was changed and the source that supports it. 
 
 ## Pattern Extraction (when relevant)
 
@@ -155,13 +156,13 @@ Base branch: <main | other>
 Scope: <path list or "single: <symbol>">
 
 Doc-first findings
-- <Page path> + <missing content> -> <evidence: file:symbol> + <suggested insertion point>
+- <Page path> + <missing content> -> <source: file:symbol> + <suggested insertion point>
 
 Code-first gaps
-- <Feature> + <evidence: file:symbol> -> <suggested doc page/section> (or "no page exists")
+- <Feature> + <source: file:symbol> -> <suggested doc page/section> (or "no page exists")
 
 Incorrect or outdated docs
-- <Doc file> + <issue> + <correct info> + <evidence: file:symbol>
+- <Doc file> + <issue> + <correct info> + <source: file:symbol>
 
 Structural suggestions (optional)
 - <Proposed change> + <rationale> (if any)
@@ -185,10 +186,10 @@ Common excuses agents use to skip steps. Rebut each one before editing.
 | Rationalization | Reality |
 |---|---|
 | "The change is small, just edit the one page" | Small changes often miss cross-references, env examples, and `index.md` updates. Run the full pass. |
-| "I'll remember the evidence, no need to cite file paths" | Future you and the user cannot verify a change without `file:symbol` evidence. Cite it every time. |
+| "I'll remember the source, no need to cite file paths" | Future you and the user cannot verify a change without a `file:symbol` source. Cite it every time. |
 | "The diff is too big to inventory" | That is exactly when the inventory matters most. Use `scripts/classify-diff.py` to shrink the work. |
 | "I'll just rewrite the page to be safe" | Rewrites are how style drift happens. Keep edits surgical; update the source comment, not the generated page. |
-| "I'll just fix the docs as I go" | Each fix needs evidence and a matching entry in the inventory. Capture it before editing. |
+| "I'll just fix the docs as I go" | Each fix needs a source and a matching entry in the inventory. Record it before editing. |
 | "Translated docs are just stale copies" | Out of scope. Translated docs have their own maintainers. Leave them alone. |
 | "The doc is already correct enough" | "Correct enough" is the seed of every docs bug. Cite the code symbol, compare to the doc line, decide. |
 | "I can't find the feature in docs, so it isn't documented" | Check the code, the index, and the plan. Then propose the page that should exist. |
@@ -210,9 +211,9 @@ Stop and reconsider when any of these appear.
 
 Before declaring the sync complete, confirm:
 
-- [ ] Every change is backed by `file:symbol` evidence.
+- [ ] Every change is backed by a `file:symbol` source.
 - [ ] Documentation content edits are inside `docs/**`.
-- [ ] A Final Report was emitted summarizing files changed, new frontmatter/index entries, env changes, evidence, and verification runs.
+- [ ] A Final Report was emitted summarizing files changed, new frontmatter/index entries, env changes, sources, and verification runs.
 - [ ] Allowed companion edits outside `docs/**` were applied only when triggered (`.env.example` and `README.md` docs section).
 - [ ] `docs/index.md` is current (new pages added, renames reflected).
 - [ ] If the change introduces reusable guidance, `/docs/25-patterns/index.md` and related pattern pages were reviewed or updated.
@@ -226,7 +227,7 @@ Before declaring the sync complete, confirm:
 
 ## Safety / DONTs
 
-- Do not edit without `file:symbol` evidence backing the change.
+- Do not edit without a `file:symbol` source backing the change.
 - Do not add speculative architecture notes not backed by code.
 - Do not remove historical notes from `/docs/99-lessons/` unless explicitly requested.
 - Do not create new pages when an existing page already covers the topic.
@@ -245,6 +246,7 @@ Before declaring the sync complete, confirm:
 - `references/trigger-matrix.md` - File-classification table for diff impact.
 - `references/doc-coverage-checklist.md` - Page-by-page audit checklist (includes OKF pass).
 - `references/okf-conventions.md` - OKF v0.1 conformance, type vocabulary, plan lifecycle.
+- `references/templates.md` - Per-type section templates and parsing template for the doc-first pass.
 - `scripts/classify-diff.py` - Classifies a `git diff` into trigger categories.
 - `scripts/check-okf.py` - Validates strict YAML frontmatter and `type:` for `/docs/`.
 - `scripts/check-links.py` - Checks internal markdown links and enforces root-absolute paths.
