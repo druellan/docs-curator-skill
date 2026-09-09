@@ -1,0 +1,10 @@
+{
+  "$schema": "https://github.com/googleapis/release-please/blob/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "include-v-in-tag": true,
+      "include-component-in-tag": false
+    }
+  }
+}

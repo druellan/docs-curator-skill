@@ -2,7 +2,7 @@
 
 > This skill is experimental and a WIP. I appreciate any feedback.
 
-![Version](https://img.shields.io/badge/version-0.2.3-blue)
+![Version](https://img.shields.io/github/v/release/druellan/docs-curator-skill?label=version)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 Help keep your `/docs/` accurate during development.
