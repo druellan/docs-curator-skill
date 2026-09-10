@@ -58,7 +58,8 @@ skills/
     ├── trigger-matrix.md             # Which file changes need which docs
     ├── okf-conventions.md            # Frontmatter rules and type vocabulary
     ├── doc-coverage-checklist.md     # Page-by-page audit checklist
-    └── templates.md                  # Per-type section templates and parsing template
+    ├── templates.md                  # Per-type section templates and parsing template
+    └── passes.md                     # Pattern extraction pass and quality guardrails
 ```
 
 ## Scripts
@@ -69,7 +70,7 @@ skills/
 | `check-okf.py [DOCS_DIR]` | Validates strict YAML frontmatter and required `type:` fields |
 | `check-links.py [DOCS_DIR]` | Checks markdown links, missing local targets, and enforces root-absolute link style |
 
-Scripts are Python 3 and cross-platform; `check-okf.py` requires `PyYAML` for strict YAML parsing.
+Scripts are Python 3, cross-platform, and dependency-free (stdlib only).
 
 ## License
 

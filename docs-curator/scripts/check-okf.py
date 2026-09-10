@@ -14,12 +14,9 @@ import re
 import sys
 from pathlib import Path
 
-try:
-    import yaml
-except ModuleNotFoundError:
-    yaml = None
-
 RESERVED = {"index.md", "log.md"}
+
+TYPE_RE = re.compile(r"^\s*type\s*:\s*(.+?)\s*$", re.MULTILINE)
 
 
 def extract_frontmatter(content: str) -> str | None:
@@ -32,25 +29,24 @@ def extract_frontmatter(content: str) -> str | None:
 
 
 def parse_type_strict(frontmatter_text: str) -> tuple[str | None, str | None]:
-    try:
-        data = yaml.safe_load(frontmatter_text)
-    except Exception as exc:  # pragma: no cover - depends on third-party parser behavior
-        return None, f"invalid YAML frontmatter: {exc}"
+    for line in frontmatter_text.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if ":" not in stripped and not stripped.startswith("-"):
+            return None, f"invalid YAML frontmatter: malformed line '{line.strip()}'"
 
-    if not isinstance(data, dict):
-        return None, "frontmatter must be a YAML mapping"
+    match = TYPE_RE.search(frontmatter_text)
+    if not match:
+        return None, None
 
-    value = data.get("type")
-    if isinstance(value, str):
-        return value, None
-    return None, None
+    raw = match.group(1).strip().strip("'\"")
+    if not raw or raw.startswith("#"):
+        return None, None
+    return raw, None
 
 
 def main() -> int:
-    if yaml is None:
-        print("PyYAML is required for strict YAML validation but is not installed", file=sys.stderr)
-        return 2
-
     docs_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("docs")
 
     if not docs_dir.is_dir():
