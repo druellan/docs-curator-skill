@@ -4,7 +4,13 @@
     ".": {
       "release-type": "simple",
       "include-v-in-tag": true,
-      "include-component-in-tag": false
+      "include-component-in-tag": false,
+      "extra-files": [
+        {
+          "type": "generic",
+          "path": "docs-curator/SKILL.md"
+        }
+      ]
     }
   }
 }

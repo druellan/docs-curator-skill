@@ -4,7 +4,7 @@ description: Keep /docs/ accurate during development. Use after code changes aff
 license: MIT
 metadata:
   author: https://github.com/darioruellan
-  version: "0.2.2"
+  version: "0.2.3" # x-release-please-version
   domain: frontend/backend
   triggers: docs, document, documentation, update docs, synchronize docs, plan, implement
   role: specialist
