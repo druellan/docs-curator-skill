@@ -50,17 +50,23 @@ def is_git_repo() -> bool:
 
 def classify(path: str) -> str:
     p = PurePosixPath(path)
-    parts = p.parts
+    # Compare case-insensitively. PSR-4, Java and C# trees use capitalised
+    # segments (app/Http/Controllers), which never match the lowercase
+    # literals below when compared against the raw path.
+    parts = tuple(seg.lower() for seg in p.parts)
+    name = p.name.lower()
+    stem = p.stem.lower()
+    lower_path = path.lower()
 
     if any(seg in parts for seg in ("tests", "test", "__tests__")):
         return "test"
-    if p.stem.endswith(".test") or p.stem.endswith(".spec"):
+    if stem.endswith(".test") or stem.endswith(".spec"):
         return "test"
-    if p.name.startswith("jest.config") or p.name.startswith("vitest"):
+    if name.startswith("jest.config") or name.startswith("vitest"):
         return "test"
-    if p.name.startswith("playwright.config") or p.name.startswith("cypress.config"):
+    if name.startswith("playwright.config") or name.startswith("cypress.config"):
         return "test"
-    if p.name.startswith("phpunit") or p.name in ("pytest.ini", "tox.ini", ".coveragerc"):
+    if name.startswith("phpunit") or name in ("pytest.ini", "tox.ini", ".coveragerc"):
         return "test"
 
     if any(seg in parts for seg in ("routes", "controllers", "api", "endpoints")):
@@ -73,25 +79,25 @@ def classify(path: str) -> str:
         return "event-or-job"
     if any(seg in parts for seg in ("console", "commands", "scheduler")):
         return "command-or-schedule"
-    if "Kernel" in p.name or "Kernel." in path:
+    if "kernel" in name or "kernel." in lower_path:
         return "command-or-schedule"
 
     if any(seg in parts for seg in ("deploy", "k8s", "terraform")):
         return "deployment"
-    if p.name.startswith("Dockerfile") or "docker-compose" in path:
+    if name.startswith("dockerfile") or "docker-compose" in lower_path:
         return "deployment"
-    if ".github/workflows" in path:
+    if ".github/workflows" in lower_path:
         return "deployment"
 
-    if "plan" in parts or "docs/40-plans" in path:
+    if "plan" in parts or "docs/40-plans" in lower_path:
         return "plan"
-    if p.name.startswith(".env") or any(seg in parts for seg in ("config", "settings")):
+    if name.startswith(".env") or any(seg in parts for seg in ("config", "settings")):
         return "setup"
-    if p.name == "index.md" and "docs" in parts:
+    if name == "index.md" and "docs" in parts:
         return "nav"
-    if p.match("mkdocs.yml") or p.match("nav.*") or p.match("sidebar.*"):
+    if name == "mkdocs.yml" or name.startswith("nav.") or name.startswith("sidebar."):
         return "nav"
-    if p.parts[:2] == ("docs", "ref"):
+    if parts[:2] == ("docs", "ref"):
         return "generated-ref"
     if "docs" in parts:
         return "docs"
