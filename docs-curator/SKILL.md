@@ -125,7 +125,7 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
 
 7. **Apply the proposed changes**
    - Keep edits scoped to the existing tone, format, and information architecture.
-   - For new concept pages, use the per-type section template in `references/templates.md` matching the page's `type:`. Sections are conventional, not required; omit sections the concept does not warrant.
+   - For new concept pages: apply the `references/technical-writing.md` guidelines; use the per-type section template in `references/templates.md` matching the page's `type:`; sections are conventional, not required; omit sections the concept does not warrant.
    - Update `/docs/index.md` when adding or renaming pages.
    - Every new or edited concept file MUST have a `type:` in its frontmatter from the controlled vocabulary in `references/okf-conventions.md`.
    - When a plan in `/docs/40-plans/` ships, follow this ordered procedure:
@@ -133,7 +133,6 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
      2. **Remove the plan entry** from `/docs/40-plans/index.md` (if present).
      3. **Remove the plan entry** from `/docs/index.md`.
      4. **Grep for stale cross-references**: search for the deleted plan's path across `/docs/` and update any cross-references in feature or integration docs to point at the shipped feature doc instead.
-   - Run the project's docs build (e.g. `make build-docs`) after edits to verify the docs site still builds.
    - If env vars changed, update `.env.example` in the same pass.
    - After every change has landed, emit the **Final Report** (see next section) summarizing what was changed and the source that supports it. 
 
@@ -177,6 +176,7 @@ If the sync found no issues to fix, emit a short "No documentation changes were 
 Before declaring the sync complete, confirm:
 
 - [ ] Every change is backed by a `file:symbol` source.
+- [ ] `references/technical-writing.md` guidelines were applied.
 - [ ] Documentation content edits are inside `docs/**`.
 - [ ] A Final Report was emitted summarizing files changed, new frontmatter/index entries, env changes, sources, and verification runs.
 - [ ] Allowed companion edits outside `docs/**` were applied only when triggered (`.env.example` and `README.md` docs section).
@@ -186,7 +186,6 @@ Before declaring the sync complete, confirm:
 - [ ] For reference pages, source docstrings were updated, not the generated output.
 - [ ] Every new or edited concept file has a `type:` in frontmatter from the controlled vocabulary.
 - [ ] `scripts/check-okf.py` reports zero OKF conformance violations.
-- [ ] Docs build command passes (e.g. `make build-docs`).
 - [ ] `scripts/check-links.py` reports no broken internal links.
 - [ ] Shipped plans in `/docs/40-plans/` were deleted, removed from index files (if present), and no stale cross-references remain (verified with `grep "path/to/deleted/plan"`).
 
@@ -208,6 +207,7 @@ Before declaring the sync complete, confirm:
 
 ## References
 
+- `references/technical-writing.md` - Mandatory writing guidelines.
 - `references/trigger-matrix.md` - File-classification table for diff impact.
 - `references/doc-coverage-checklist.md` - Page-by-page audit checklist (includes OKF pass).
 - `references/okf-conventions.md` - OKF v0.1 conformance, type vocabulary, plan lifecycle.
