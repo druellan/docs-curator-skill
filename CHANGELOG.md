@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.5](https://github.com/druellan/docs-curator-skill/compare/v0.2.4...v0.2.5) (2026-09-13)
+
+
+### Features
+
+* new technical-writing skill to improve text flow and documentation clarity ([fa2c11b](https://github.com/druellan/docs-curator-skill/commit/fa2c11b69ffac5f3c9dfe879935e72456657858d))
+
+
+### Bug Fixes
+
+* classify-diff.py is now case-insensitive ([169bc45](https://github.com/druellan/docs-curator-skill/commit/169bc45440aeba7615b7cc1bc13712aab4da583e))
+
 ## [0.2.4](https://github.com/druellan/docs-curator-skill/compare/v0.2.3...v0.2.4) (2026-09-10)
 
 
