@@ -1,4 +1,4 @@
-# Document Curator Skill
+# Document curator skill
 
 > This skill is experimental and a WIP. I appreciate any feedback.
 
@@ -7,11 +7,11 @@
 
 Help keep your `/docs/` accurate during development.
 
-## The Problem
+## The problem
 
 Documentation drift is the most common silent failure in agentic coding workflows: code moves, docs stay. This skill keeps your docs aligned with shipped behavior so nothing falls through the cracks.
 
-## How It Works
+## How it works
 
 - **Scope-aware** - works in three modes depending on what you need:
   - `full` - comprehensive audit of the full public surface
@@ -19,9 +19,9 @@ Documentation drift is the most common silent failure in agentic coding workflow
   - `concept` - a single feature or symbol you name
 - **Evidence-driven** - every finding cites file and symbol evidence, so you can verify it.
 
-## Documentation Standards (OKF)
+## Documentation standards (OKF)
 
-This skill enforces **OKF v0.1** (Open Knowledge Format) conformance across your `/docs/` bundle. OKF is an [open specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) by Google Cloud for representing knowledge as interconnected Markdown files with structured YAML frontmatter — making your docs both human-readable and machine-parseable.
+This skill enforces **OKF v0.1** (Open Knowledge Format) conformance across your `/docs/` bundle. OKF is an [open specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) by Google Cloud for representing knowledge as interconnected Markdown files with structured YAML frontmatter. This makes your docs both human-readable and machine-parseable.
 
 ### Why OKF matters
 
@@ -29,23 +29,23 @@ Without structure, docs become a flat pile of Markdown. OKF gives every page a *
 
 See [`references/okf-conventions.md`](docs-curator/references/okf-conventions.md) for the full type vocabulary and project-specific rules, [`references/trigger-matrix.md`](docs-curator/references/trigger-matrix.md) for the file-to-doc routing table, and [`references/templates.md`](docs-curator/references/templates.md) for per-type section templates. Test procedures ("which tests exist and how to run them") live as `type: Test Procedure` pages under `/docs/30-operations/`.
 
-## Documentation Folders It Maintains
+## Documentation folders it maintains
 
 When the skill updates or creates documentation, it uses a predictable folder structure under your project's `/docs/` tree:
 
-- `/docs/00-core/` - foundational concepts, constraints, architecture, and shared conventions.
-- `/docs/10-integrations/` - documentation for external integrations, services, and connectors.
-- `/docs/20-features/` - feature-specific behavior, usage, and capabilities.
-- `/docs/25-patterns/` - reusable guidance and playbooks that apply across multiple features.
-- `/docs/30-operations/` - operational procedures, runbooks, deployment details, and maintenance guidance.
-- `/docs/40-plans/` - implementation plans; these are typically removed once the work ships.
-- `/docs/99-lessons/` - retrospective lessons and postmortems when explicitly requested.
-- `/docs/index.md` - the main navigation hub for the docs set.
-- `/docs/log.md` - reserved log file for document history or change tracking when needed.
+- `/docs/00-core/`: foundational concepts, constraints, architecture, and shared conventions.
+- `/docs/10-integrations/`: documentation for external integrations, services, and connectors.
+- `/docs/20-features/`: feature-specific behavior, usage, and capabilities.
+- `/docs/25-patterns/`: reusable guidance and playbooks that apply across multiple features.
+- `/docs/30-operations/`: operational procedures, runbooks, deployment details, and maintenance guidance.
+- `/docs/40-plans/`: implementation plans; these are typically removed once the work ships.
+- `/docs/99-lessons/`: retrospective lessons and postmortems when explicitly requested.
+- `/docs/index.md`: the main navigation hub for the docs set.
+- `/docs/log.md`: reserved log file for document history or change tracking when needed.
 
-The skill will create or update pages in the most appropriate folder rather than scattering content arbitrarily.
+The skill creates or updates pages in the most appropriate folder rather than scattering content arbitrarily.
 
-## Project Structure
+## Project structure
 
 ```
 skills/

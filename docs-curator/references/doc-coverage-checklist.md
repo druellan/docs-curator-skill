@@ -1,8 +1,8 @@
-# Doc Coverage Checklist
+# Doc coverage checklist
 
 Use this checklist during the doc-first and code-first passes. It is intentionally short - it is a scanning aid, not a substitute for reading the page.
 
-## Feature Inventory Targets
+## Feature inventory targets
 
 - Public exports: classes, functions, types, and module entry points.
 - Configuration options: `*Settings` types, default config objects, and builder patterns.
@@ -12,28 +12,28 @@ Use this checklist during the doc-first and code-first passes. It is intentional
 - User-facing behaviors: retry, timeouts, streaming, errors, logging, telemetry, and data handling.
 - Deprecations, removals, or renamed settings.
 
-## Doc-First Pass (Page by Page)
+## Doc-first pass (page by page)
 
 - Review each relevant page.
 - Look for missing opt-in flags, env vars, or customization options that the page implies exist.
 - Note features that belong on the page based on user intent and navigation.
 - Flag sections that read as a quick-start but are actually doing deep reference work.
 
-## Code-First Pass (Feature Inventory)
+## Code-first pass (feature inventory)
 
 - Map features to the closest existing page based on the navigation in `/docs/index.md`.
 - Prefer updating existing pages over creating new ones unless the topic is clearly new.
 - Use conceptual pages for cross-cutting concerns (auth, errors, streaming, tracing, tools).
 - Keep quick-start flows minimal; move advanced details into deeper pages.
 
-## Source Capture
+## Source capture
 
 - Record the file path and symbol or setting name for every claim.
 - Note defaults and behavior-critical details for accuracy checks.
 - Avoid large code dumps in the report; a short identifier plus a one-line description is enough.
 - For generated reference pages, cite the source symbol, not the generated output.
 
-## Red Flags for Outdated or Incorrect Docs
+## Red flags for outdated or incorrect docs
 
 - Option names or types no longer exist or differ from code.
 - Default values or allowed ranges do not match implementation.
@@ -41,14 +41,14 @@ Use this checklist during the doc-first and code-first passes. It is intentional
 - New behaviors introduced without corresponding docs updates.
 - Examples that import paths or call signatures that no longer exist.
 
-## When to Propose Structural Changes
+## When to propose structural changes
 
 - A page mixes unrelated audiences (quick-start and deep reference) without clear separation.
 - Multiple pages duplicate the same concept without cross-links.
 - New feature areas have no obvious home in the nav structure.
 - A page is referenced from `/docs/index.md` but does not exist.
 
-## OKF Conformance Pass
+## OKF conformance pass
 
 `/docs/` is an OKF v0.1 knowledge bundle. Every page must conform. Run `scripts/check-okf.py` and treat any violation as a doc gap.
 
@@ -59,7 +59,7 @@ Use this checklist during the doc-first and code-first passes. It is intentional
 - `status:` is set correctly for the type (see `references/okf-conventions.md`).
 - Plans in `/docs/40-plans/` follow the delete-on-ship lifecycle.
 
-## Diff Mode Guidance (Current Branch vs Base)
+## Diff mode guidance (current branch vs base)
 
 - Focus only on changed behavior: new exports or options, modified defaults, removed features, or renamed settings.
 - Use `git diff <base>...HEAD` (or equivalent) to constrain analysis.

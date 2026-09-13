@@ -1,8 +1,8 @@
-# Section Templates for /docs/
+# Section templates for /docs/
 
-Per-type body templates for concept documents. These are **conventional, not required** — they follow OKF's own stance that "there are no required body sections." Use the template that best matches the concept's `type:`; adapt or drop sections when the concept does not warrant them. The goal is predictable structure for both human readers and agents, not rigid conformity.
+Per-type body templates for concept documents. These are **conventional, not required**. They follow OKF's own stance that "there are no required body sections." Use the template that best matches the concept's `type:`; adapt or drop sections when the concept does not warrant them. The goal is predictable structure for both human readers and agents, not rigid conformity.
 
-## Universal Core
+## Universal core
 
 Every concept document benefits from these sections, regardless of type. Use them as the default skeleton when no type-specific template applies.
 
@@ -11,17 +11,17 @@ Every concept document benefits from these sections, regardless of type. Use the
 | `# Overview` | 2-3 sentences: what the concept is, who it is for, and the task it addresses | First sentence carries the most important fact; AI systems extract it for summaries |
 | `# Prerequisites` | What the reader needs before starting: versions, access, accounts, prior knowledge | Omit only when nothing is required |
 | `# Steps` (or `# Behavior`) | The core content: numbered steps, expected outputs, or behavior description | One action per step; flag common errors where they occur |
-| `# Examples` | Working code samples, API calls, or config files the reader can copy | Mark placeholders clearly; specify language/runtime per snippet |
+| `# Examples` | Working code samples, API calls, or config files the reader can copy | Mark placeholders clearly. Specify the language and runtime per snippet. |
 | `# Troubleshooting` | Common errors paired with resolutions | Structure each entry as symptom, cause, fix |
 | `# References` | Related docs, external standards, or API references | Use root-absolute links (`/docs/...`) |
 
-## Type-Specific Templates
+## Type-specific templates
 
 Map each `type:` from `references/okf-conventions.md` to the template that fits best. The section lists are the **minimum conventional skeleton**; add sections when the concept warrants them.
 
 ### `Feature` (20-features/)
 
-Sections: `# Overview` → `# Behavior` → `# Options` → `# Examples`
+Sections: `# Overview`, `# Behavior`, `# Options`, `# Examples`
 
 ```markdown
 ---
@@ -53,7 +53,7 @@ description: <one-line summary>
 
 ### `API Reference` (00-core/)
 
-Sections: `# Overview` → `# Endpoint` → `# Parameters` → `# Request / Response` → `# Errors`
+Sections: `# Overview`, `# Endpoint`, `# Parameters`, `# Request and response`, `# Errors`
 
 ```markdown
 ---
@@ -74,7 +74,7 @@ description: <one-line summary>
 
 <Table of parameters: name, type, required, description.>
 
-# Request / Response
+# Request and response
 
 <Example request and response bodies. Mark placeholders clearly.>
 
@@ -85,7 +85,7 @@ description: <one-line summary>
 
 ### `Runbook` (30-operations/)
 
-Sections: `# Trigger` → `# Steps` → `# Verification`
+Sections: `# Trigger`, `# Steps`, `# Verification`
 
 ```markdown
 ---
@@ -109,7 +109,7 @@ description: <one-line summary>
 
 ### `Deployment` (30-operations/)
 
-Sections: `# Prerequisites` → `# Steps` → `# Rollback`
+Sections: `# Prerequisites`, `# Steps`, `# Rollback`
 
 ```markdown
 ---
@@ -133,7 +133,7 @@ description: <one-line summary>
 
 ### `Test Procedure` (30-operations/)
 
-Sections: `# Prerequisites` → `# Steps` → `# Test Inventory`
+Sections: `# Prerequisites`, `# Steps`, `# Test Inventory`
 
 ```markdown
 ---
@@ -150,14 +150,14 @@ description: <one-line summary>
 
 <The exact steps to run the suite and to list available tests.>
 
-# Test Inventory
+# Test inventory
 
 <Available tests or the discovery command that lists them. One line per suite.>
 ```
 
 ### `Schema` (00-core/)
 
-Sections: `# Schema` → `# Joins` → `# Examples`
+Sections: `# Schema`, `# Joins`, `# Examples`
 
 ```markdown
 ---
@@ -168,7 +168,7 @@ description: <one-line summary>
 
 # Schema
 
-<Table of columns/fields: name, type, description.>
+<Table of columns and fields: name, type, and description.>
 
 # Joins
 
@@ -181,7 +181,7 @@ description: <one-line summary>
 
 ### `Setup` (00-core/)
 
-Sections: `# Overview` → `# Prerequisites` → `# Setup` → `# Verification`
+Sections: `# Overview`, `# Prerequisites`, `# Setup`, `# Verification`
 
 ```markdown
 ---
@@ -209,7 +209,7 @@ description: <one-line summary>
 
 ### `Integration` (10-integrations/)
 
-Sections: `# Overview` → `# Setup` → `# Usage` → `# Limitations`
+Sections: `# Overview`, `# Setup`, `# Usage`, `# Limitations`
 
 ```markdown
 ---
@@ -237,7 +237,7 @@ description: <one-line summary>
 
 ### `Command` (30-operations/)
 
-Sections: `# Overview` → `# Usage` → `# Options` → `# Examples`
+Sections: `# Overview`, `# Usage`, `# Options`, `# Examples`
 
 ```markdown
 ---
@@ -265,7 +265,7 @@ description: <one-line summary>
 
 ### `Implementation Plan` (40-plans/)
 
-Sections: `# Scope` → `# Milestones` → `# Rollout`
+Sections: `# Scope`, `# Milestones`, `# Rollout`
 
 ```markdown
 ---
@@ -290,7 +290,7 @@ status: proposed
 
 ### `Architecture` (00-core/)
 
-Sections: `# Overview` → `# Components` → `# Data Flow` → `# Constraints`
+Sections: `# Overview`, `# Components`, `# Data Flow`, `# Constraints`
 
 ```markdown
 ---
@@ -307,7 +307,7 @@ description: <one-line summary>
 
 <The major components and their responsibilities.>
 
-# Data Flow
+# Data flow
 
 <How data moves between components.>
 
@@ -318,7 +318,7 @@ description: <one-line summary>
 
 ### `Lesson` (99-lessons/)
 
-Sections: `# Context` → `# What Happened` → `# Takeaway`
+Sections: `# Context`, `# What Happened`, `# Takeaway`
 
 ```markdown
 ---
@@ -331,7 +331,7 @@ description: <one-line summary>
 
 <The situation that produced the lesson.>
 
-# What Happened
+# What happened
 
 <The event, failure, or dead-end, with source references.>
 
@@ -342,7 +342,7 @@ description: <one-line summary>
 
 ### `Pattern` (25-patterns/)
 
-Sections: `# Overview` → `# When to Use` → `# Pattern` → `# Example`
+Sections: `# Overview`, `# When to Use`, `# Pattern`, `# Example`
 
 ```markdown
 ---
@@ -368,7 +368,7 @@ description: <one-line summary>
 <An implementation-ready example. Mark placeholders clearly.>
 ```
 
-## Parsing Template (Doc-First Pass)
+## Parsing template (doc-first pass)
 
 When reviewing an existing page, extract these fields to determine whether it matches its type's template. This is the "parse the information" counterpart to the build templates above.
 
@@ -378,12 +378,12 @@ When reviewing an existing page, extract these fields to determine whether it ma
 | Overview | Is there a 2-3 sentence summary of what the page covers? |
 | Core sections | Does the page contain the sections its type's template expects? |
 | Source | Does every claim cite a `file:symbol`? |
-| Options/params | Are all options, flags, and parameters documented? |
+| Options and params | Are all options, flags, and parameters documented? |
 | Examples | Are examples needed, present, working, and clearly marked? |
 | Cross-links | Are related concepts linked with root-absolute paths? |
 | Status | Is `status:` correct for the type (see `references/okf-conventions.md`)? |
 
-## Adoption Guidance
+## Adoption guidance
 
 - **Start minimal.** Use the 2-5 section skeleton per type. Add sections only when a recurring gap appears.
 - **Keep sections conventional, not required.** A concept that does not warrant a section should omit it, matching OKF's "no required body sections" rule.

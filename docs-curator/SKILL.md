@@ -10,11 +10,11 @@ metadata:
   role: specialist
   scope: documentation
 ---
-# docs-curator - Keep Documentation Current
+# docs-curator: keep documentation current
 
 ## Overview
 
-This skill helps keep `/docs/` aligned with shipped behavior by comparing the change scope to the existing documentation, inventorying the relevant code surface, and proposing updates for review before anything is changed.
+This skill helps keep `/docs/` aligned with shipped behavior: it compares the change scope to the existing documentation, inventories the relevant code, and proposes updates for review before changing anything.
 
 The skill is **scope-aware** (full audit vs current-branch diff vs single concept) and **source-anchored** (every claim cites a file path and symbol).
 
@@ -23,7 +23,7 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 - Creating new docs that are not derived from existing code (use a writing skill).
 - Fixing typos or prose polish in docs unrelated to a code change.
 
-## Documentation Folders
+## Documentation folders
 
 | Folder | Purpose | Scope |
 |---|---|---|
@@ -35,7 +35,7 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 | `/docs/40-plans/` | Implementation plans; **deleted on ship** (see `references/okf-conventions.md`) | Included |
 | `/docs/99-lessons/` | Retrospective lessons and postmortems; only when the user explicitly mentions lessons, postmortem, or retrospective in their request | Excluded by default |
 | `/docs/index.md` | Main navigation hub for the docs set | Included |
-| `/docs/log.md` | Reserved log file for document history or change tracking when needed | — |
+| `/docs/log.md` | Reserved log file for document history or change tracking when needed | n/a |
 
 ## Scope
 
@@ -43,7 +43,7 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 
 - Updating files under `/docs/00-core/`, `/docs/10-integrations/`, `/docs/20-features/`, `/docs/25-patterns/`, and `/docs/30-operations/`.
 - Maintaining `/docs/index.md` navigation.
-- Keeping `/docs/40-plans/` plans aligned with the code as it evolves during implementation. Plans are **delete-on-ship**: when a feature ships, the plan file is removed and any relevant behavior is documented under the appropriate feature or integration page (see `references/okf-conventions.md`).
+- Keeping `/docs/40-plans/` plans aligned with the code as it evolves during implementation. Plans are **delete-on-ship**: when a feature ships, delete the plan file and document the relevant behavior under the appropriate feature or integration page (see `references/okf-conventions.md`).
 - Enforcing OKF v0.1 conformance across `/docs/` (parseable frontmatter, `type:` in every concept, controlled type vocabulary).
 - Syncing `.env.example` with new environment variables.
 - Keeping `/docs/30-operations/` test procedure pages (e.g. `testing.md`, `type: Test Procedure`) aligned with the test surface: framework, run commands, available-test inventory.
@@ -62,9 +62,9 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 - Git diff of the current change.
 - Existing doc tree under `/docs/` and the navigation file `/docs/index.md`.
 
-## Operating Modes
+## Operating modes
 
-Choose the right mode for the change size. The mode is determined by the user's intent and the working branch.
+Choose the right mode for the change size. The user's intent and the working branch determine the mode.
 
 | Mode | When | What to inventory |
 |---|---|---|
@@ -74,7 +74,7 @@ Choose the right mode for the change size. The mode is determined by the user's 
 
 Default to `diff` on a feature branch and `full` on `main`. Never switch branches to gain access to a different mode; use `git show main:<path>`, `git worktree add`, or read files from the base ref directly.
 
-## Step-by-Step Execution
+## Step-by-step execution
 
 1. **Confirm mode and base branch.**
    - Identify the current branch and the default branch (usually `main`).
@@ -92,18 +92,18 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
 3. **Classify the diff into trigger categories.**
    - In `diff` mode this step is mandatory: run `python scripts/classify-diff.py` (or the project's equivalent) to map changed files into the categories in `references/trigger-matrix.md`, then inspect every matching row.
    - In `full` mode, the matrix is a routing guide only.
-   - If referenced scripts or reference files do not exist in the project, skip that step and note the missing dependency in the Final Report under Verification.
+   - If referenced scripts or reference files do not exist in the project, skip that step and note the missing dependency in the final report under Verification.
    - This shrinks the doc tree to the sections that actually need attention.
    - For changes to `/docs/` itself, also run `python scripts/check-okf.py` to catch frontmatter or `type:` regressions in the same pass.
 
 4. **Doc-first pass: review existing pages.**
    - Walk each relevant page under `/docs/`.
-   - Use `references/templates.md` as the parsing template: check each page against its `type:`'s expected sections (Overview, core sections, Options/params, Examples, Source, Cross-links, Status).
+   - Use `references/templates.md` as the parsing template: check each page against its `type:`'s expected sections (Overview, core sections, Options and params, Examples, Source, Cross-links, Status).
    - Identify missing mentions of important supported options: opt-in flags, env vars, customization points, new features from `src/` and `examples/`.
    - Propose additions where users would reasonably expect to find them on that page.
 
    Documentation routing rule:
-   - Put **cross-cutting reusable guidance** in `/docs/25-patterns/` (for example: composition rules, interaction behaviors, validation/check flows, accessibility patterns, naming conventions, or integration playbooks that apply in multiple places).
+   - Put **cross-cutting reusable guidance** in `/docs/25-patterns/` (for example: composition rules, interaction behaviors, validation and check flows, accessibility patterns, naming conventions, or integration playbooks that apply in multiple places).
    - Keep `/docs/20-features/` for **feature-specific behavior** tied to concrete components, modules, pages, commands, or services.
    - Keep `/docs/00-core/` for **foundational primitives and constraints** (tokens, global architecture, base conventions, shared constraints).
       - Put **test procedures** (how to run the suite, how to list available tests, suite inventory) in `/docs/30-operations/` with `type: Test Procedure` (see `references/okf-conventions.md`).
@@ -117,10 +117,10 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
    - Classify candidate docs as one of: **foundation** (`00-core`), **feature** (`20-features`), or **pattern** (`25-patterns`) before proposing edits.
 
 6. **Detect gaps and inaccuracies.**
-   - **Missing**: features/configs present in code but absent in docs.
-   - **Incorrect / outdated**: names, defaults, or behaviors that diverge from code.
-   - **Structural** (optional): pages overloaded, missing overviews, or mis-grouped topics.
-   - **OKF** (when full bundle is adopted): concept has no `type:`, wrong `type:` for its directory, or missing from its subdirectory `index.md`.
+   - **Missing.** Features or configs present in code but absent in docs.
+   - **Incorrect or outdated.** Names, defaults, or behaviors that diverge from code.
+   - **Structural (optional).** Pages overloaded, missing overviews, or mis-grouped topics.
+   - **OKF (when the full bundle is adopted).** A concept has no `type:`, the wrong `type:` for its directory, or is missing from its subdirectory `index.md`.
    - If the same guidance appears in 2+ pages, run the Pattern Extraction pass in `references/passes.md`.
 
 7. **Apply the proposed changes**
@@ -132,13 +132,13 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
      1. **Delete the plan file** from `/docs/40-plans/`.
      2. **Remove the plan entry** from `/docs/40-plans/index.md` (if present).
      3. **Remove the plan entry** from `/docs/index.md`.
-     4. **Grep for stale cross-references**: search for the deleted plan's path across `/docs/` and update any cross-references in feature or integration docs to point at the shipped feature doc instead.
+     4. **Grep for stale cross-references.** Search the deleted plan's path across `/docs/` and update any cross-references in feature or integration docs to point at the shipped feature doc instead.
    - If env vars changed, update `.env.example` in the same pass.
-   - After every change has landed, emit the **Final Report** (see next section) summarizing what was changed and the source that supports it. 
+   - After every change has landed, emit the **final report** (see next section) summarizing what was changed and the source that supports it. 
 
-## Final Report
+## Final report
 
-After all edits land, emit a Final Report describing what changed in the documentation. Use this template verbatim:
+After all edits land, emit a final report describing what changed in the documentation. Use this template verbatim:
 
 ```
 Docs Sync Final Report
@@ -175,10 +175,10 @@ If the sync found no issues to fix, emit a short "No documentation changes were 
 
 Before declaring the sync complete, confirm:
 
-- [ ] Every change is backed by a `file:symbol` source.
+- [ ] Every change has a `file:symbol` source.
 - [ ] `references/technical-writing.md` guidelines were applied.
 - [ ] Documentation content edits are inside `docs/**`.
-- [ ] A Final Report was emitted summarizing files changed, new frontmatter/index entries, env changes, sources, and verification runs.
+- [ ] A final report summarizes files changed, new frontmatter and index entries, env changes, sources, and verification runs.
 - [ ] Allowed companion edits outside `docs/**` were applied only when triggered (`.env.example` and `README.md` docs section).
 - [ ] `docs/index.md` is current (new pages added, renames reflected).
 - [ ] If the change introduces reusable guidance, `/docs/25-patterns/index.md` and related pattern pages were reviewed or updated.
@@ -189,7 +189,7 @@ Before declaring the sync complete, confirm:
 - [ ] `scripts/check-links.py` reports no broken internal links.
 - [ ] Shipped plans in `/docs/40-plans/` were deleted, removed from index files (if present), and no stale cross-references remain (verified with `grep "path/to/deleted/plan"`).
 
-## Safety / DONTs
+## Safety rules
 
 - Do not edit without a `file:symbol` source backing the change.
 - Do not add speculative architecture notes not backed by code.
@@ -207,12 +207,12 @@ Before declaring the sync complete, confirm:
 
 ## References
 
-- `references/technical-writing.md` - Mandatory writing guidelines.
-- `references/trigger-matrix.md` - File-classification table for diff impact.
-- `references/doc-coverage-checklist.md` - Page-by-page audit checklist (includes OKF pass).
-- `references/okf-conventions.md` - OKF v0.1 conformance, type vocabulary, plan lifecycle.
-- `references/templates.md` - Per-type section templates and parsing template for the doc-first pass.
-- `references/passes.md` - Pattern Extraction pass, Anti-Rationalization, and Red Flags.
-- `scripts/classify-diff.py` - Classifies a `git diff` into trigger categories.
-- `scripts/check-okf.py` - Validates strict YAML frontmatter and `type:` for `/docs/`.
-- `scripts/check-links.py` - Checks internal markdown links and enforces root-absolute paths.
+- `references/technical-writing.md`: Mandatory writing guidelines.
+- `references/trigger-matrix.md`: File-classification table for diff impact.
+- `references/doc-coverage-checklist.md`: Page-by-page audit checklist (includes the OKF pass).
+- `references/okf-conventions.md`: OKF v0.1 conformance, type vocabulary, plan lifecycle.
+- `references/templates.md`: Per-type section templates and parsing template for the doc-first pass.
+- `references/passes.md`: Pattern extraction pass, anti-rationalization, and red flags.
+- `scripts/classify-diff.py`: Classifies a `git diff` into trigger categories.
+- `scripts/check-okf.py`: Validates strict YAML frontmatter and `type:` for `/docs/`.
+- `scripts/check-links.py`: Checks internal markdown links and enforces root-absolute paths.

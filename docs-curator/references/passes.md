@@ -1,17 +1,17 @@
-# Passes and Guardrails
+# Passes and guardrails
 
 Conditional procedures and quality controls applied at specific points in the main workflow. Load the relevant section only when its trigger fires; these are not always-on instructions.
 
-## Pattern Extraction Pass
+## Pattern extraction pass
 
 **Trigger:** a change set includes guidance that appears in 2+ places. Runs after inventory and before proposing edits.
 
 1. Identify repeated guidance in docs or code (behavioral flow, composition, validation, operational sequence, accessibility, integration sequence).
 2. Propose moving that repeated guidance into `/docs/25-patterns/` as canonical reusable patterns.
-3. Replace duplicated prose in feature/operations pages with concise links to the canonical pattern page.
+3. Replace duplicated prose in feature and operations pages with concise links to the canonical pattern page.
 4. Keep examples implementation-ready, but avoid page-specific copy in pattern pages.
 
-## Anti-Rationalization
+## Anti-rationalization
 
 Common excuses agents use to skip steps. Rebut each one before editing.
 
@@ -26,7 +26,7 @@ Common excuses agents use to skip steps. Rebut each one before editing.
 | "The doc is already correct enough" | "Correct enough" is the seed of every docs bug. Cite the code symbol, compare to the doc line, decide. |
 | "I can't find the feature in docs, so it isn't documented" | Check the code, the index, and the plan. Then propose the page that should exist. |
 
-## Red Flags
+## Red flags
 
 Stop and reconsider when any of these appear.
 

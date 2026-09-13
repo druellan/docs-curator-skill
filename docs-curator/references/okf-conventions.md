@@ -1,4 +1,4 @@
-# OKF Conventions for /docs/
+# OKF conventions for /docs/
 
 This directory is an OKF v0.1 knowledge bundle. See [the spec](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) for the full conformance rules. This document pins down the project-specific choices.
 
@@ -12,7 +12,7 @@ Per OKF v0.1 §9, a bundle is conformant when:
 
 Reserved filenames MUST NOT be used for concept documents.
 
-## Type Vocabulary
+## Type vocabulary
 
 The project uses a controlled type vocabulary so consumers can filter, route, and visualize. Use the type from this table that best matches the concept. If nothing fits, propose a new type and add it here.
 
@@ -46,20 +46,20 @@ description: <one-line summary>
 
 Recommended fields (in priority order):
 
-- `title` — human-readable display name. If omitted, consumers may derive from filename.
-- `description` — one sentence; used in `index.md` and search snippets.
-- `resource` — URI for the underlying asset, if any.
-- `tags` — list of short strings for cross-cutting categorization.
-- `timestamp` — ISO 8601 datetime of last meaningful change.
-- `status` — concept lifecycle state. Allowed values depend on type (see below).
+- `title`: human-readable display name. If omitted, consumers may derive from filename.
+- `description`: one sentence; used in `index.md` and search snippets.
+- `resource`: URI for the underlying asset, if any.
+- `tags`: list of short strings for cross-cutting categorization.
+- `timestamp`: ISO 8601 datetime of last meaningful change.
+- `status`: concept lifecycle state. Allowed values depend on type (see below).
 
 Producers MAY add any other keys. Consumers MUST NOT reject unknown keys.
 
-## Status by Type
+## Status by type
 
 | Type | Allowed `status` values | Default |
 |---|---|---|
-| `Architecture` | (none) | — |
+| `Architecture` | (none) | n/a |
 | `API Reference` | `draft`, `stable`, `deprecated` | `stable` |
 | `Schema` | `draft`, `stable`, `deprecated` | `stable` |
 | `Integration` | `draft`, `stable`, `deprecated` | `stable` |
@@ -70,9 +70,9 @@ Producers MAY add any other keys. Consumers MUST NOT reject unknown keys.
 | `Deployment` | `draft`, `stable`, `deprecated` | `stable` |
 | `Command` | `draft`, `stable`, `deprecated` | `stable` |
 | `Implementation Plan` | `proposed`, `accepted`, `delayed` | `proposed` |
-| `Lesson` | (none) | — |
+| `Lesson` | (none) | n/a |
 
-## Implementation Plan Lifecycle
+## Implementation plan lifecycle
 
 Plans in `/docs/40-plans/` follow an aggressive delete-on-ship lifecycle. The reasoning: once a feature ships, the "why" lives in the shipped code, the architecture, and the lessons archive. Stale plans add noise without adding context.
 
@@ -86,16 +86,16 @@ Plans in `/docs/40-plans/` follow an aggressive delete-on-ship lifecycle. The re
 
 A plan that is abandoned before shipping should be moved to `/docs/99-lessons/` with `type: Lesson` and a brief retrospective.
 
-## Cross-Links
+## Cross-links
 
 - Use root-absolute paths, ex: `/docs/10-integrations/stripe.md`.
 - Do not use relative paths; root-absolute paths are stable when documents move.
 - Links express directed relationships; the surrounding prose conveys the relationship type.
 - Consumers MUST tolerate broken links.
 
-## Reserved Filenames
+## Reserved filenames
 
-- `index.md` — directory listing for progressive disclosure. No frontmatter (per OKF §6), except the bundle root which MAY declare `okf_version`.
-- `log.md` — chronological change history for the directory. Newest first, ISO 8601 date headings.
+- `index.md`: directory listing for progressive disclosure. No frontmatter (per OKF §6), except the bundle root which MAY declare `okf_version`.
+- `log.md`: chronological change history for the directory. Newest first, ISO 8601 date headings.
 
 All other `.md` files in the tree are concept documents and MUST have frontmatter.
