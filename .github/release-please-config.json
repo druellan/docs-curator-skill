@@ -1,16 +1,11 @@
 {
   "$schema": "https://github.com/googleapis/release-please/blob/main/schemas/config.json",
+  "pull-request-footer": " ",
   "packages": {
     ".": {
       "release-type": "simple",
       "include-v-in-tag": true,
-      "include-component-in-tag": false,
-      "extra-files": [
-        {
-          "type": "generic",
-          "path": "docs-curator/SKILL.md"
-        }
-      ]
+      "include-component-in-tag": false
     }
   }
 }
