@@ -2,6 +2,23 @@
 
 Per-type body templates for concept documents. These are **conventional, not required**. They follow OKF's own stance that "there are no required body sections." Use the template that best matches the concept's `type:`; adapt or drop sections when the concept does not warrant them. The goal is predictable structure for both human readers and agents, not rigid conformity.
 
+## Common frontmatter
+
+Every concept document carries the shared OKF v0.2 frontmatter. The per-type blocks below show body sections and the type-specific keys; this block shows the shape they all share. See `references/okf-conventions.md` for the full field list.
+
+```yaml
+---
+type: <controlled type>
+title: <display name>
+description: <one-line summary>
+generated: { by: docs-curator/<version>, at: <ISO 8601 datetime> }
+status: stable
+tags: [<tag>]
+---
+```
+
+Bump `generated.at` on every meaningful edit. Do not keep a separate `timestamp` field; OKF v0.2 supersedes it with `generated`.
+
 ## Universal core
 
 Every concept document benefits from these sections, regardless of type. Use them as the default skeleton when no type-specific template applies.
@@ -272,7 +289,7 @@ Sections: `# Scope`, `# Milestones`, `# Rollout`
 type: Implementation Plan
 title: <plan name>
 description: <one-line summary>
-status: proposed
+status: draft
 ---
 
 # Scope
@@ -382,6 +399,9 @@ When reviewing an existing page, extract these fields to determine whether it ma
 | Examples | Are examples needed, present, working, and clearly marked? |
 | Cross-links | Are related concepts linked with root-absolute paths? |
 | Status | Is `status:` correct for the type (see `references/okf-conventions.md`)? |
+| Provenance | Does a derived page list `sources` in frontmatter instead of a body citations list? |
+| Freshness | Is `generated.at` present and at least as recent as the last real change? |
+| Trust | If a person or deterministic process confirmed the page, is there a `verified` entry? |
 
 ## Adoption guidance
 

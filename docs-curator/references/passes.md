@@ -38,3 +38,6 @@ Stop and reconsider when any of these appear.
 - The proposed edit hand-edits a generated reference page instead of the source.
 - The inventory lists features the diff adds but the docs already cover, while missing features the diff actually changed.
 - `.env.example` is out of sync with the new env vars in the diff.
+- An edited page keeps its old `generated.at`, or a new page has no `generated`.
+- A page lists citations in the body instead of the `sources` frontmatter field.
+- A new page is missing from `index.md`, or its index entry lacks the page's `description`.

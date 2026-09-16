@@ -21,7 +21,7 @@ Documentation drift is the most common silent failure in agentic coding workflow
 
 ## Documentation standards (OKF)
 
-This skill enforces **OKF v0.1** (Open Knowledge Format) conformance across your `/docs/` bundle. OKF is an [open specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) by Google Cloud for representing knowledge as interconnected Markdown files with structured YAML frontmatter. This makes your docs both human-readable and machine-parseable.
+This skill enforces **OKF v0.2** (Open Knowledge Format) conformance across your `/docs/` bundle. OKF is an [open specification](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) by Google Cloud for representing knowledge as interconnected Markdown files with structured YAML frontmatter. This makes your docs both human-readable and machine-parseable. Version 0.2 records provenance (`sources`), trust (`generated`, `verified`), and lifecycle (`status`, `stale_after`) in frontmatter, so consumers can tell where a page came from and whether it is still current.
 
 ### Why OKF matters
 
@@ -40,8 +40,8 @@ When the skill updates or creates documentation, it uses a predictable folder st
 - `/docs/30-operations/`: operational procedures, runbooks, deployment details, and maintenance guidance.
 - `/docs/40-plans/`: implementation plans; these are typically removed once the work ships.
 - `/docs/99-lessons/`: retrospective lessons and postmortems when explicitly requested.
-- `/docs/index.md`: the main navigation hub for the docs set.
-- `/docs/log.md`: reserved log file for document history or change tracking when needed.
+- `/docs/index.md`: the sectioned catalog of every page with its `description` and the bundle `okf_version` (OKF §8).
+- `/docs/log.md`: chronological update log when the bundle keeps one, newest first (OKF §9).
 
 The skill creates or updates pages in the most appropriate folder rather than scattering content arbitrarily.
 
@@ -52,14 +52,14 @@ skills/
 ├── SKILL.md                          # Agent instructions (the brain)
 ├── scripts/
 │   ├── classify-diff.py              # Maps git diffs to trigger categories
-│   ├── check-okf.py                  # Validates OKF v0.1 frontmatter
-│   └── check-links.py                # Finds broken internal links
+│   └── check-integrity.py            # Checks OKF conformance, index coverage, and links
 └── references/
     ├── trigger-matrix.md             # Which file changes need which docs
     ├── okf-conventions.md            # Frontmatter rules and type vocabulary
     ├── doc-coverage-checklist.md     # Page-by-page audit checklist
     ├── templates.md                  # Per-type section templates and parsing template
-    └── passes.md                     # Pattern extraction pass and quality guardrails
+    ├── passes.md                     # Pattern extraction pass and quality guardrails
+    └── technical-writing.md          # Universal writing guidelines
 ```
 
 ## Scripts
@@ -67,8 +67,7 @@ skills/
 | Script | What it does |
 |---|---|
 | `classify-diff.py [BASE_REF]` | Classifies a `git diff` into trigger-matrix categories (endpoints, models, tests, deployments, docs, ...), including rename-safe parsing |
-| `check-okf.py [DOCS_DIR]` | Validates strict YAML frontmatter and required `type:` fields |
-| `check-links.py [DOCS_DIR]` | Checks markdown links, missing local targets, and enforces root-absolute link style |
+| `check-integrity.py [DOCS_DIR] [--lenient] [--only okf,index,links]` | Validates OKF v0.2 conformance, index coverage and description sync, and markdown links. Strict project-field checks are on by default; `--lenient` drops them and `--only` scopes the run |
 
 Scripts are Python 3, cross-platform, and dependency-free (stdlib only).
 

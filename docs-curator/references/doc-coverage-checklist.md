@@ -50,13 +50,17 @@ Use this checklist during the doc-first and code-first passes. It is intentional
 
 ## OKF conformance pass
 
-`/docs/` is an OKF v0.1 knowledge bundle. Every page must conform. Run `scripts/check-okf.py` and treat any violation as a doc gap.
+`/docs/` is an OKF v0.2 knowledge bundle. Every page must conform. Run `scripts/check-integrity.py`, and treat any violation as a doc gap.
 
 - Every concept file (non-reserved `.md`) has parseable YAML frontmatter.
 - Every frontmatter has a non-empty `type:` from the controlled vocabulary in `references/okf-conventions.md`.
 - New concept types are added to the vocabulary before use.
-- `index.md` files enumerate the directory contents for progressive disclosure.
+- `index.md` files enumerate the directory contents for progressive disclosure, each entry pairing a link with that page's `description`.
+- The bundle-root `/docs/index.md` declares `okf_version: "0.2"`.
+- `generated.at` is present and current on every agent-written page.
 - `status:` is set correctly for the type (see `references/okf-conventions.md`).
+- Provenance lives in `sources` frontmatter, not in a body citations list.
+- `log.md`, when present, is newest first with ISO 8601 date headings.
 - Plans in `/docs/40-plans/` follow the delete-on-ship lifecycle.
 
 ## Diff mode guidance (current branch vs base)

@@ -33,17 +33,17 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 | `/docs/30-operations/` | Operational procedures, runbooks, deployment details, and maintenance guidance | Included |
 | `/docs/40-plans/` | Implementation plans; **deleted on ship** (see `references/okf-conventions.md`) | Included |
 | `/docs/99-lessons/` | Retrospective lessons and postmortems; only when the user explicitly mentions lessons, postmortem, or retrospective in their request | Excluded by default |
-| `/docs/index.md` | Main navigation hub for the docs set | Included |
-| `/docs/log.md` | Reserved log file for document history or change tracking when needed | n/a |
+| `/docs/index.md` | Sectioned catalog of every page with its `description` and the bundle `okf_version` (OKF §8) | Included |
+| `/docs/log.md` | Chronological update log when the bundle keeps one; newest first (OKF §9) | n/a |
 
 ## Scope
 
 **Included:**
 
 - Updating files under `/docs/00-core/`, `/docs/10-integrations/`, `/docs/20-features/`, `/docs/25-patterns/`, and `/docs/30-operations/`.
-- Maintaining `/docs/index.md` navigation.
+- Maintaining `/docs/index.md` as a sectioned catalog: one entry per page, each carrying the page's `description` and the bundle `okf_version` (see `references/okf-conventions.md`).
 - Keeping `/docs/40-plans/` plans aligned with the code as it evolves during implementation. Plans are **delete-on-ship**: when a feature ships, delete the plan file and document the relevant behavior under the appropriate feature or integration page (see `references/okf-conventions.md`).
-- Enforcing OKF v0.1 conformance across `/docs/` (parseable frontmatter, `type:` in every concept, controlled type vocabulary).
+- Enforcing OKF v0.2 conformance across `/docs/` (parseable frontmatter, `type:` in every concept, controlled type vocabulary, reserved `index.md` and `log.md` structure).
 - Syncing `.env.example` with new environment variables.
 - Keeping `/docs/30-operations/` test procedure pages (e.g. `testing.md`, `type: Test Procedure`) aligned with the test surface: framework, run commands, available-test inventory.
 - Source code comments and docstrings (preferred over hand-editing generated reference pages).
@@ -59,7 +59,7 @@ The skill is **scope-aware** (full audit vs current-branch diff vs single concep
 
 - Changed source files (controllers, models, services, jobs, listeners, commands, config, migrations, routes, plan files).
 - Git diff of the current change.
-- Existing doc tree under `/docs/` and the navigation file `/docs/index.md`.
+- Existing doc tree under `/docs/` and the catalog file `/docs/index.md`.
 
 ## Operating modes
 
@@ -93,11 +93,11 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
    - In `full` mode, the matrix is a routing guide only.
    - If referenced scripts or reference files do not exist in the project, skip that step and note the missing dependency in the final report under Verification.
    - This shrinks the doc tree to the sections that actually need attention.
-   - For changes to `/docs/` itself, also run `python scripts/check-okf.py` to catch frontmatter or `type:` regressions in the same pass.
+   - For changes to `/docs/` itself, also run `python scripts/check-integrity.py` in the same pass to catch conformance, catalog coverage, and link regressions.
 
 4. **Doc-first pass: review existing pages.**
    - Walk each relevant page under `/docs/`.
-   - Use `references/templates.md` as the parsing template: check each page against its `type:`'s expected sections (Overview, core sections, Options and params, Examples, Source, Cross-links, Status).
+   - Use `references/templates.md` as the parsing template: check each page against its `type:`'s expected sections (Overview, core sections, Options and params, Examples, Source, Cross-links, Status) and its OKF frontmatter fields (`generated`, `verified`, `sources`).
    - Identify missing mentions of important supported options: opt-in flags, env vars, customization points, new features from `src/` and `examples/`.
    - Propose additions where users would reasonably expect to find them on that page.
 
@@ -119,13 +119,14 @@ Default to `diff` on a feature branch and `full` on `main`. Never switch branche
    - **Missing.** Features or configs present in code but absent in docs.
    - **Incorrect or outdated.** Names, defaults, or behaviors that diverge from code.
    - **Structural (optional).** Pages overloaded, missing overviews, or mis-grouped topics.
-   - **OKF (when the full bundle is adopted).** A concept has no `type:`, the wrong `type:` for its directory, or is missing from its subdirectory `index.md`.
+   - **OKF (when the full bundle is adopted).** A concept has no `type:`, the wrong `type:` for its directory, a stale `generated.at`, or is missing from its subdirectory `index.md`.
    - If the same guidance appears in 2+ pages, run the Pattern Extraction pass in `references/passes.md`.
 
 7. **Apply the proposed changes**
    - Keep edits scoped to the existing tone, format, and information architecture.
    - For new concept pages: apply the `references/technical-writing.md` guidelines; use the per-type section template in `references/templates.md` matching the page's `type:`; sections are conventional, not required; omit sections the concept does not warrant.
-   - Update `/docs/index.md` when adding or renaming pages.
+   - Update `/docs/index.md` when adding or renaming pages, and keep each entry's description in sync with the page's `description:` field.
+   - Bump `generated.at` on every page created or edited, and append an entry to `/docs/log.md` when the bundle keeps one (see `references/okf-conventions.md`).
    - Every new or edited concept file MUST have a `type:` in its frontmatter from the controlled vocabulary in `references/okf-conventions.md`.
    - When a plan in `/docs/40-plans/` ships, follow this ordered procedure:
      1. **Delete the plan file** from `/docs/40-plans/`.
@@ -165,7 +166,7 @@ Env / config changes
 - <var name> + <where it shows up> + <action: add to .env.example | update docs>
 
 Verification
-- <which checks ran: scripts/check-okf.py, scripts/check-links.py, make build-docs, etc.>
+- <which checks ran: scripts/check-integrity.py, make build-docs, etc.>
 ```
 
 If the sync found no issues to fix, emit a short "No documentation changes were required for this scope." line in place of the template.
@@ -179,13 +180,14 @@ Before declaring the sync complete, confirm:
 - [ ] Documentation content edits are inside `docs/**`.
 - [ ] A final report summarizes files changed, new frontmatter and index entries, env changes, sources, and verification runs.
 - [ ] Allowed companion edits outside `docs/**` were applied only when triggered (`.env.example` and `README.md` docs section).
-- [ ] `docs/index.md` is current (new pages added, renames reflected).
+- [ ] `docs/index.md` is current (new pages added, renames reflected, descriptions match page frontmatter, root `okf_version` present).
 - [ ] If the change introduces reusable guidance, `/docs/25-patterns/index.md` and related pattern pages were reviewed or updated.
 - [ ] `.env.example` matches the new env vars (if any).
 - [ ] For reference pages, source docstrings were updated, not the generated output.
 - [ ] Every new or edited concept file has a `type:` in frontmatter from the controlled vocabulary.
-- [ ] `scripts/check-okf.py` reports zero OKF conformance violations.
-- [ ] `scripts/check-links.py` reports no broken internal links.
+- [ ] Every created or edited page has a current `generated.at`.
+- [ ] `/docs/log.md` received an entry for this pass when the bundle keeps one.
+- [ ] `scripts/check-integrity.py` reports zero OKF conformance, catalog coverage, and link issues.
 - [ ] Shipped plans in `/docs/40-plans/` were deleted, removed from index files (if present), and no stale cross-references remain (verified with `grep "path/to/deleted/plan"`).
 
 ## Safety rules
@@ -196,7 +198,8 @@ Before declaring the sync complete, confirm:
 - Do not create new pages when an existing page already covers the topic.
 - Do not create concept files without a `type:` in frontmatter from the controlled vocabulary.
 - Do not keep shipped plans around for reference; delete them (see `references/okf-conventions.md`).
-- Do not drop or reformat YAML frontmatter when editing a concept file. Preserve existing `type:`, `title:`, `description:`, `tags:`, and `timestamp:` fields.
+- Do not drop or reformat YAML frontmatter when editing a concept file. Preserve existing `type:`, `title:`, `description:`, `tags:`, `status:`, `generated:`, `verified:`, and `sources:` fields, and bump `generated.at` to reflect the edit.
+- Do not write a body citations list; provenance lives in the `sources` frontmatter field.
 
 ## Gotchas
 
@@ -209,9 +212,8 @@ Before declaring the sync complete, confirm:
 - `references/technical-writing.md`: Mandatory writing guidelines.
 - `references/trigger-matrix.md`: File-classification table for diff impact.
 - `references/doc-coverage-checklist.md`: Page-by-page audit checklist (includes the OKF pass).
-- `references/okf-conventions.md`: OKF v0.1 conformance, type vocabulary, plan lifecycle.
+- `references/okf-conventions.md`: OKF v0.2 conformance, frontmatter families, type vocabulary, index and log structure, plan lifecycle.
 - `references/templates.md`: Per-type section templates and parsing template for the doc-first pass.
 - `references/passes.md`: Pattern extraction pass, anti-rationalization, and red flags.
 - `scripts/classify-diff.py`: Classifies a `git diff` into trigger categories.
-- `scripts/check-okf.py`: Validates strict YAML frontmatter and `type:` for `/docs/`.
-- `scripts/check-links.py`: Checks internal markdown links and enforces root-absolute paths.
+- `scripts/check-integrity.py`: Validates OKF v0.2 conformance, index coverage and description sync, and internal links for `/docs/`. Project-field checks are strict by default; `--lenient` drops them and `--only okf,index,links` scopes the run.
