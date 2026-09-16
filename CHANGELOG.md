@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/druellan/docs-curator-skill/compare/v0.2.5...v0.3.0) (2026-09-16)
+
+
+### Features
+
+* adopt OKF v0.2 and consolidate checks into check-integrity.py ([14309fb](https://github.com/druellan/docs-curator-skill/commit/14309fb24c84c08d2d3565f4bcd5c2495d426b47))
+
 ## [0.2.5](https://github.com/druellan/docs-curator-skill/compare/v0.2.4...v0.2.5) (2026-09-13)
 
 
