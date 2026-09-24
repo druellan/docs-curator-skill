@@ -17,7 +17,7 @@ Common excuses agents use to skip steps. Rebut each one before editing.
 
 | Rationalization | Reality |
 |---|---|
-| "The change is small, just edit the one page" | Small changes often miss cross-references, env examples, and `index.md` updates. Run the full pass. |
+| "The change is small, just edit the one page" | Even a focused change may affect cross-references, env examples, or `index.md`. Check the relevant dependencies within the selected mode. |
 | "I'll remember the source, no need to cite file paths" | Future you and the user cannot verify a change without a `file:symbol` source. Cite it every time. |
 | "The diff is too big to inventory" | That is exactly when the inventory matters most. Use `scripts/classify-diff.py` to shrink the work. |
 | "I'll just rewrite the page to be safe" | Rewrites are how style drift happens. Keep edits surgical; update the source comment, not the generated page. |

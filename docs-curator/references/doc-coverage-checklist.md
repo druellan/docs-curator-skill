@@ -54,7 +54,7 @@ Use this checklist during the doc-first and code-first passes. It is intentional
 
 - Every concept file (non-reserved `.md`) has parseable YAML frontmatter.
 - Every frontmatter has a non-empty `type:` from the controlled vocabulary in `references/okf-conventions.md`.
-- New concept types are added to the vocabulary before use.
+- Every concept uses an existing type based on its primary purpose; do not add new types.
 - `index.md` files enumerate the directory contents for progressive disclosure, each entry pairing a link with that page's `description`.
 - The bundle-root `/docs/index.md` declares `okf_version: "0.2"`.
 - `generated.at` is present and current on every agent-written page.

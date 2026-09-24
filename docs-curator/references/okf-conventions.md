@@ -16,7 +16,7 @@ Consumers MUST NOT reject a bundle because of a missing optional field, an unkno
 
 ## Type vocabulary
 
-The project uses a controlled type vocabulary so consumers can filter, route, and visualize. Use the type from this table that best matches the concept. If nothing fits, propose a new type and add it here.
+The project uses a fixed type vocabulary so consumers can filter, route, and visualize. Every concept must use a type from this table. Choose the type that best describes the page's primary purpose; do not add new types.
 
 | Type | Used in | Purpose |
 |---|---|---|
@@ -34,7 +34,7 @@ The project uses a controlled type vocabulary so consumers can filter, route, an
 | `Implementation Plan` | `40-plans/` | WIP implementation plan (see lifecycle below) |
 | `Lesson` | `99-lessons/` | Post-mortem, retrospective, or verified-dead-end finding (see trigger matrix) |
 
-OKF does not prescribe a type list; it requires only that `type` is present and that consumers tolerate unknown values. The spec defines one type with extra contract fields: `Attested Computation` (§10), a sanctioned computation that a consumer can run and check. Docs bundles for software projects rarely need it. Use it only when a page must carry a computation with typed parameters, an executor, and a deterministic attester, then follow §10 for the contract fields.
+OKF does not prescribe a type list and requires consumers to tolerate unknown values. This project's fixed vocabulary is a rule for pages the skill writes, not an additional OKF conformance requirement.
 
 ## Frontmatter
 
@@ -143,7 +143,7 @@ Plans in `/docs/40-plans/` follow an aggressive delete-on-ship lifecycle. The re
    - Update any cross-references in feature or integration docs to point at the shipped feature doc instead.
    - Add a one-line `## Provenance` note in the shipped feature doc if the rationale deserves a permanent home.
 
-A plan that is abandoned before shipping moves to `/docs/99-lessons/` with `type: Lesson` and a brief retrospective. A plan that is deferred stays `draft`. Do not invent a separate status value; consumers filter on the three lifecycle values above.
+If the user explicitly requests a lesson about a plan abandoned before shipping, move it to `/docs/99-lessons/` with `type: Lesson` and a brief retrospective. Otherwise, report the abandoned plan and ask what to preserve before removing it. A plan that is deferred stays `draft`. Do not invent a separate status value; consumers filter on the three lifecycle values above.
 
 ## Cross-links
 

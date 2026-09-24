@@ -48,12 +48,13 @@ The skill creates or updates pages in the most appropriate folder rather than sc
 ## Project structure
 
 ```
-skills/
-├── SKILL.md                          # Agent instructions (the brain)
+docs-curator/
+├── SKILL.md                          # Scope, decisions, and non-negotiable rules
 ├── scripts/
 │   ├── classify-diff.py              # Maps git diffs to trigger categories
 │   └── check-integrity.py            # Checks OKF conformance, index coverage, and links
 └── references/
+    ├── workflow.md                   # Detailed documentation sync procedure
     ├── trigger-matrix.md             # Which file changes need which docs
     ├── okf-conventions.md            # Frontmatter rules and type vocabulary
     ├── doc-coverage-checklist.md     # Page-by-page audit checklist

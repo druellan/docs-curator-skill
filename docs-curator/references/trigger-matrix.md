@@ -15,8 +15,8 @@ Maps changed files to the doc sections that need attention. Use it as a starting
 | New `.env.example` entries | `docs/00-core/setup` and the integration or feature page that consumes the var | Docs and example must agree |
 | `mkdocs.yml`, `docs/index.md`, or nav reorg | All `/docs/` pages touched by the move | Link integrity |
 | Plan shipped | **Delete** the plan file under `/docs/40-plans/`, update `/docs/40-plans/index.md` and `/docs/index.md`, fix any cross-references | Plans are delete-on-ship; see `references/okf-conventions.md` |
-| Plan abandoned | Move to `/docs/99-lessons/` with `type: Lesson` and a brief retrospective | Preserve the learning |
-| Verified dead-end (documented procedure failed with evidence) | Create `/docs/99-lessons/<slug>.md` with `type: Lesson`; cross-link from the runbook or integration doc that triggered it | The vendor-documented path failed with timestamped evidence. The finding is temporal; it could change in a vendor release. See `references/okf-conventions.md` |
+| Plan abandoned | Report the plan and its evidence; move it to `/docs/99-lessons/` only if the user requests a lesson | Preserve the learning without creating an unsolicited retrospective |
+| Verified dead-end (documented procedure failed with evidence) | Report the finding; create a `/docs/99-lessons/<slug>.md` page only if requested | The finding is temporal; it could change in a vendor release. See `references/okf-conventions.md` |
 | Test framework, runner, or config change (new suite, `phpunit.xml`, `jest.config.*`, etc.) | `/docs/30-operations/testing.md` test procedure page | The verification steps changed |
 | Test command, filter, or CI test job changed | `/docs/30-operations/testing.md` + `/docs/00-core/` setup if documented there | Run instructions would mislead |
 | Individual test file added or changed | `/docs/30-operations/testing.md` available-tests inventory entry (one line) or the documented discovery command; judge whether the procedure changed | Keep the test inventory accurate without churn |
