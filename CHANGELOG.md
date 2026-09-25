@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/druellan/docs-curator-skill/compare/v0.3.0...v0.3.1) (2026-09-24)
+
+
+### Features
+
+* streamline skill.md, offload workflows to resources. Fixed style table ([59f94fa](https://github.com/druellan/docs-curator-skill/commit/59f94fa67d0b307be128d7897a5510384950d342))
+
 ## [0.3.0](https://github.com/druellan/docs-curator-skill/compare/v0.2.5...v0.3.0) (2026-09-16)
 
 
