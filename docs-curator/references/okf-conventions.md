@@ -106,15 +106,24 @@ sources:
     title: Orders export schema
     author: team:backend
     last_modified: 2026-08-30T00:00:00Z
-usage_window: { from: 2026-09-01T00:00:00Z, to: 2026-09-30T00:00:00Z }
+    usage_count: 125
+    usage_window: { from: 2026-09-01T00:00:00Z, to: 2026-09-30T00:00:00Z }
 ```
 
 `sources[].resource` is required in each entry. The credibility signals `author`, `usage_count`, and `last_modified` are optional; pair `usage_count` with the `usage_window` sibling. Attribute one claim with a footnote whose label is the source `id`:
 
 ```markdown
-The `events` table is sharded daily.[^ga4-schema]
+The `events` table is sharded daily.[^orders-schema]
 
-[^ga4-schema]: GA4 BigQuery Export schema
+[^orders-schema]: Orders export schema
+```
+
+For repository-backed claims, put the precise `file:symbol` in the footnote definition:
+
+```markdown
+Shards roll over daily.[^events-schema]
+
+[^events-schema]: `src/events/schema.ts:EventSchema`
 ```
 
 Footnote labels are keys, not positions, so they survive a reordered list.

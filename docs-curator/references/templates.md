@@ -57,7 +57,7 @@ description: <one-line summary>
 
 # Behavior
 
-<How the feature behaves: flows, states, interactions. When claim-level attribution helps, use an inline footnote keyed to a frontmatter source id; put the precise file:symbol in the footnote definition.>
+<How the feature behaves: flows, states, interactions. When claim-level attribution helps, use an inline footnote keyed to a frontmatter source id; for repository-backed claims, put the precise file:symbol in the footnote definition, and for external sources, the source title.>
 
 # Options
 
@@ -382,7 +382,7 @@ description: <one-line summary>
 
 # Pattern
 
-<The steps, rules, or structure to follow. When claim-level attribution helps, use an inline footnote keyed to a frontmatter source id; put the precise file:symbol in the footnote definition.>
+<The steps, rules, or structure to follow. When claim-level attribution helps, use an inline footnote keyed to a frontmatter source id; for repository-backed claims, put the precise file:symbol in the footnote definition, and for external sources, the source title.>
 
 # Example
 
