@@ -14,10 +14,14 @@ description: <one-line summary>
 generated: { by: docs-curator/<version>, at: <ISO 8601 datetime> }
 status: stable
 tags: [<tag>]
+sources:
+  - id: <source-id>
+    resource: <source URI>
+    title: <source title>
 ---
 ```
 
-Bump `generated.at` on every meaningful edit. Do not keep a separate `timestamp` field; OKF v0.2 supersedes it with `generated`.
+Bump `generated.at` on every meaningful edit. Do not keep a separate `timestamp` field; OKF v0.2 supersedes it with `generated`. Include the `sources` block whenever the page derives from traceable material; omit it only when there is no traceable source. See `references/okf-conventions.md` for the source-entry rules.
 
 ## Universal core
 
@@ -53,7 +57,7 @@ description: <one-line summary>
 
 # Behavior
 
-<How the feature behaves: flows, states, interactions. Cite file:symbol source.>
+<How the feature behaves: flows, states, interactions. When claim-level attribution helps, use an inline footnote keyed to a frontmatter source id; put the precise file:symbol in the footnote definition.>
 
 # Options
 
@@ -378,7 +382,7 @@ description: <one-line summary>
 
 # Pattern
 
-<The steps, rules, or structure to follow. Cite file:symbol source.>
+<The steps, rules, or structure to follow. When claim-level attribution helps, use an inline footnote keyed to a frontmatter source id; put the precise file:symbol in the footnote definition.>
 
 # Example
 
@@ -394,12 +398,12 @@ When reviewing an existing page, extract these fields to determine whether it ma
 | `type:` | Does the frontmatter `type:` match the page's actual content? |
 | Overview | Is there a 2-3 sentence summary of what the page covers? |
 | Core sections | Does the page contain the sections its type's template expects? |
-| Source | Does every claim cite a `file:symbol`? |
+| Source evidence | Is each code-backed claim supported by `file:symbol` evidence in the working inventory/report, with inline source-id footnotes in the page where claim-level attribution helps? |
 | Options and params | Are all options, flags, and parameters documented? |
 | Examples | Are examples needed, present, working, and clearly marked? |
 | Cross-links | Are related concepts linked with root-absolute paths? |
 | Status | Is `status:` correct for the type (see `references/okf-conventions.md`)? |
-| Provenance | Does a derived page list `sources` in frontmatter instead of a body citations list? |
+| Provenance | Does every source-derived page list its provenance in frontmatter? Inline source-id footnotes may attribute individual claims; a standalone body bibliography is not a substitute. A `# References` section for related reading remains fine. |
 | Freshness | Is `generated.at` present and at least as recent as the last real change? |
 | Trust | If a person or deterministic process confirmed the page, is there a `verified` entry? |
 

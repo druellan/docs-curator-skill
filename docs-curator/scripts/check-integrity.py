@@ -4,13 +4,15 @@
 Usage: check-integrity.py [DOCS_DIR] [--lenient] [--only okf,index,links]
   DOCS_DIR defaults to ./docs.
   --lenient drops the project-field checks (title, description, generated,
-  status, okf_version); the OKF v0.2 §11 conformance checks always run.
+  status, sources metadata, okf_version); the OKF v0.2 §11 conformance checks
+  always run.
   --only runs a subset of checks (default: okf,index,links).
 
 Checks:
   okf    - OKF v0.2 §11 conformance: parseable frontmatter, non-empty `type`,
            reserved index and log structure. The default (strict) mode also
-           requires title, description, generated, and a valid status.
+           requires title, description, generated, a valid status when present,
+           and well-formed `sources` metadata when that field is present.
   index  - index.md coverage: every concept listed, every sub-index linked,
            every entry carrying the linked page's frontmatter description.
   links  - markdown links: no broken local targets, root-absolute style.
@@ -20,6 +22,7 @@ Exits 0 if clean, 1 if any issue, 2 on usage error.
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlsplit
 
 RESERVED = {"index.md", "log.md"}
 VALID_SECTIONS = ("okf", "index", "links")
@@ -32,6 +35,7 @@ ISO_DATETIME_RE = re.compile(
 )
 STATUS_VALUES = ("draft", "stable", "deprecated")
 STRICT_FIELDS = ("title", "description")
+SOURCE_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 ENTRY_RE = re.compile(r"^\s*[-*]\s+\[[^\]]+\]\(([^)]+)\)\s*(.*)$")
 LINK_RE = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
@@ -111,6 +115,127 @@ def mapping_fields(frontmatter_text: str, key: str) -> dict[str, str] | None:
     return None
 
 
+def yaml_scalar_value(raw_value: str) -> str:
+    value = raw_value.strip()
+    if not value or value.startswith("#") or value in {"~", "null", "Null", "NULL"}:
+        return ""
+    if value[0] in ("'", '"'):
+        quote = value[0]
+        end = value.find(quote, 1)
+        return value[1:end].strip() if end > 0 else ""
+    return value.split(" #", 1)[0].strip()
+
+
+def validate_sources(frontmatter_text: str) -> list[str]:
+    """Validate the project source-list shape without requiring a YAML package."""
+    lines = frontmatter_text.splitlines()
+    source_indexes = [
+        index
+        for index, line in enumerate(lines)
+        if re.match(r"^sources\s*:", line)
+    ]
+    if not source_indexes:
+        return []
+    if len(source_indexes) > 1:
+        return ["strict: duplicate `sources:` fields in frontmatter"]
+
+    start = source_indexes[0]
+    header = re.match(r"^sources\s*:\s*(.*?)\s*$", lines[start])
+    if not header or yaml_scalar_value(header.group(1)):
+        return ["strict: `sources:` must be a block sequence"]
+
+    source_lines: list[str] = []
+    for line in lines[start + 1 :]:
+        if line.strip() and not line.lstrip().startswith("#") and not line[0].isspace():
+            break
+        source_lines.append(line)
+
+    entries: list[dict[str, str]] = []
+    problems: list[str] = []
+    current: dict[str, str] | None = None
+
+    for line in source_lines:
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        indent = len(line) - len(line.lstrip())
+        stripped = line.strip()
+
+        if indent == 2 and stripped.startswith("-"):
+            current = {}
+            entries.append(current)
+            first_field = stripped[1:].strip()
+            if first_field:
+                field = re.match(r"^([A-Za-z_][A-Za-z0-9_-]*)\s*:\s*(.*?)\s*$", first_field)
+                if not field:
+                    problems.append("strict: each `sources` item must be a mapping")
+                    continue
+                current[field.group(1)] = yaml_scalar_value(field.group(2))
+            continue
+
+        if indent == 4 and current is not None:
+            field = re.match(r"^([A-Za-z_][A-Za-z0-9_-]*)\s*:\s*(.*?)\s*$", stripped)
+            if not field:
+                problems.append("strict: each `sources` item must contain mapping fields")
+                continue
+            field_name = field.group(1)
+            if field_name in current:
+                problems.append(f"strict: duplicate `sources` field `{field_name}` in item {len(entries)}")
+            current[field_name] = yaml_scalar_value(field.group(2))
+            continue
+
+        if indent > 4 and current is not None:
+            # Nested values are allowed; direct fields are sufficient for these checks.
+            continue
+
+        problems.append("strict: `sources` must be a block sequence of mappings")
+
+    if not entries:
+        problems.append("strict: `sources` must contain at least one source")
+        return problems
+
+    seen_ids: set[str] = set()
+    for index, entry in enumerate(entries, start=1):
+        source_id = entry.get("id", "")
+        if not source_id:
+            problems.append(f"strict: `sources` item {index} is missing a non-empty `id`")
+        elif not SOURCE_ID_RE.fullmatch(source_id):
+            problems.append(
+                f"strict: `sources` item {index} `id` must be lowercase kebab-case"
+            )
+        elif source_id in seen_ids:
+            problems.append(f"strict: duplicate `sources[].id`: {source_id}")
+        else:
+            seen_ids.add(source_id)
+
+        resource = entry.get("resource", "")
+        if not resource:
+            problems.append(f"strict: `sources` item {index} is missing a non-empty `resource`")
+        else:
+            try:
+                parsed_resource = urlsplit(resource)
+            except ValueError:
+                problems.append(f"strict: `sources` item {index} `resource` must be a valid URI")
+            else:
+                if not parsed_resource.scheme or re.search(r"\s", resource):
+                    problems.append(f"strict: `sources` item {index} `resource` must be a URI")
+                elif parsed_resource.scheme in {"http", "https"} and not parsed_resource.netloc:
+                    problems.append(f"strict: `sources` item {index} `resource` must be a valid URI")
+
+        has_usage_count = "usage_count" in entry
+        has_usage_window = "usage_window" in entry
+        for key in ("usage_count", "usage_window"):
+            if key in entry and not entry[key]:
+                problems.append(
+                    f"strict: `sources` item {index} `{key}` must be non-empty when present"
+                )
+        if has_usage_count != has_usage_window:
+            problems.append(
+                f"strict: `sources` item {index} must declare `usage_count` and `usage_window` together"
+            )
+
+    return problems
+
+
 def page_description(path: Path) -> str | None:
     content = read_text(path)
     if content is None or not content.startswith("---"):
@@ -177,6 +302,7 @@ def validate_concept(frontmatter_text: str, strict: bool) -> list[str]:
         problems.append(
             f"strict: `status` value '{status}' is not one of {', '.join(STATUS_VALUES)}"
         )
+    problems.extend(validate_sources(frontmatter_text))
     return problems
 
 

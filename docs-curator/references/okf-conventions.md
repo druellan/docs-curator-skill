@@ -58,6 +58,7 @@ generated: { by: docs-curator/<version>, at: <ISO 8601 datetime> }
 ```
 
 `description` is not decoration: it feeds the page's entry in `index.md` and search snippets.
+For every concept page based on traceable repository code, configuration, or external material, include a non-empty `sources` list.
 
 Recommended fields, in priority order:
 
