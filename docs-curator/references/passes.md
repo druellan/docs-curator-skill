@@ -18,10 +18,10 @@ Common excuses agents use to skip steps. Rebut each one before editing.
 | Rationalization | Reality |
 |---|---|
 | "The change is small, just edit the one page" | Even a focused change may affect cross-references, env examples, or `index.md`. Check the relevant dependencies within the selected mode. |
-| "I'll remember the source, no need to cite file paths" | Future you and the user cannot verify a change without a `file:symbol` source. Cite it every time. |
+| "I'll remember the source, no need to cite file paths" | Future you and the user cannot verify a change without `file:symbol` evidence. Cite it every time. |
 | "The diff is too big to inventory" | That is exactly when the inventory matters most. Use `scripts/classify-diff.py` to shrink the work. |
 | "I'll just rewrite the page to be safe" | Rewrites are how style drift happens. Keep edits surgical; update the source comment, not the generated page. |
-| "I'll just fix the docs as I go" | Each fix needs a source and a matching entry in the inventory. Record it before editing. |
+| "I'll just fix the docs as I go" | Each fix needs evidence and a matching entry in the inventory. Record it before editing. |
 | "Translated docs are just stale copies" | Out of scope. Translated docs have their own maintainers. Leave them alone. |
 | "The doc is already correct enough" | "Correct enough" is the seed of every docs bug. Cite the code symbol, compare to the doc line, decide. |
 | "I can't find the feature in docs, so it isn't documented" | Check the code, the index, and the plan. Then propose the page that should exist. |

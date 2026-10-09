@@ -119,6 +119,16 @@ The `events` table is sharded daily.[^ga4-schema]
 
 Footnote labels are keys, not positions, so they survive a reordered list.
 
+### Glossary
+
+Canonical terms for docs-curator. Use these exact words; do not substitute synonyms in skill docs.
+
+- **claim** — a single atomic assertion in documentation that is, or should be, traceable to `file:symbol` evidence in the code. Page-level `sources` records the material; claim-level footnotes attribute individual claims. Truth-value neutral: a claim may be true, false, or unverified.
+- **evidence** — the precise `file:symbol` locator backing a claim, recorded in the working inventory and final report. A code file may also be a `sources` entry, but the locator is always called evidence, never a source.
+- **fact** — a prose-quality term: concrete, specific, non-hedged wording. Used in `technical-writing.md` for writing guidance, *not* for provenance. Do not use "fact" where "claim" is meant.
+- **grammatical unit** — a self-contained grammatical construct (see `technical-writing.md`). Unrelated to claims or provenance.
+- **source** — an input the page derives from, listed in frontmatter `sources` with a unique kebab-case `id`. It may be code, config, or external material.
+
 ### status and stale_after
 
 `status` is `draft`, `stable`, or `deprecated` (§5.4). Absent means `stable`.

@@ -28,7 +28,7 @@ Prefer the user's requested scope over the branch default. Never switch branches
 ## Work in order
 
 1. Establish the mode and scope; load `references/workflow.md` for the detailed procedure. In diff mode, load `references/trigger-matrix.md` and classify the changes. In concept mode, stay focused on the named concept and its dependencies.
-2. Inspect code and existing docs from both directions. Record a `file:symbol` source for each behavior or configuration change; use page frontmatter `sources` for provenance. Do not invent architecture or resolve conflicting evidence by guessing.
+2. Inspect code and existing docs from both directions. Record `file:symbol` evidence for each behavior or configuration change; use page frontmatter `sources` for provenance. Do not invent architecture or resolve conflicting evidence by guessing.
 3. Route changes to existing pages when possible. Load `references/okf-conventions.md` for frontmatter, indexes, links, and plan lifecycle; load `references/templates.md` when creating or restructuring a concept page. Use `references/technical-writing.md` for writing or substantive prose edits. Load `references/passes.md` only when its conditional trigger fires.
 4. Apply supported edits without an approval gate. Keep `/docs/99-lessons/` creation and edits behind an explicit user request. Keep generated reference pages in sync by editing their source docstrings instead of their generated output.
 5. Run the applicable integrity and project checks, then report files changed, supporting sources, checks run, and any unresolved uncertainty. If no changes are needed, say so.

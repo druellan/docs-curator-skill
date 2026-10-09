@@ -23,7 +23,7 @@
    - In `diff` mode: inspect committed changes against the base branch (`git diff <base>...HEAD`), uncommitted tracked changes (`git diff` and `git diff --cached`), and relevant untracked files. Do not mistake an empty committed diff for an empty change set.
    - In `concept` mode: read the named source plus its tests and references.
    - Search for project-specific configuration and environment-variable patterns. In `full` mode, also inspect test commands, suites, listing commands, and CI test jobs.
-   - Record each item's `file:symbol` source and behavior notes. Keep this evidence in the working inventory and final report; use frontmatter `sources` for page provenance.
+   - Record each item's `file:symbol` evidence and behavior notes. Keep this evidence in the working inventory and final report; use frontmatter `sources` for page provenance.
 
 3. **Classify the diff into trigger categories.**
    - In `diff` mode, run the installed skill's `scripts/classify-diff.py <base>` with the target repository as the working directory, if available. It classifies committed changes only and assigns one category per file. Review uncommitted changes separately and inspect every applicable row in `references/trigger-matrix.md`.
