@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.0](https://github.com/druellan/docs-curator-skill/compare/v0.3.1...v0.4.0) (2026-10-09)
+
+
+### Features
+
+* enhance source validation in check-integrity.py and update documentation for sources metadata ([426a9ab](https://github.com/druellan/docs-curator-skill/commit/426a9ab369364d4f850f3bbbcf5bb81979956d4b))
+* update documentation to clarify evidence terminology and improve workflow instructions ([cc7dbe6](https://github.com/druellan/docs-curator-skill/commit/cc7dbe6d60fb3b91b018db14617c94907ae508a7))
+* update documentation to clarify footnote attribution for claims in templates and conventions ([4995aef](https://github.com/druellan/docs-curator-skill/commit/4995aefde6ff8f5e118cac12effa559690dc6ee6))
+
 ## [0.3.1](https://github.com/druellan/docs-curator-skill/compare/v0.3.0...v0.3.1) (2026-09-24)
 
 
